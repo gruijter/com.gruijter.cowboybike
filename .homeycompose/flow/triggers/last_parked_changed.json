@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Last parked time changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=cowboy"
+		}
+	],
+	"tokens": [
+		{
+			"name": "last_parked",
+			"type": "string",
+			"title": { 
+				"en": "Last parked"
+			},
+			"example": "Sep 03 15:50"
+		}
+	]
+}

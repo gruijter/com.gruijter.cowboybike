@@ -1,0 +1,59 @@
+{
+  "id": "com.gruijter.cowboybike",
+  "version": "3.0.0",
+  "compatibility": ">=10.0.0",
+  "sdk": 3,
+  "brandColor": "#272727",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Cowboy Bike"
+  },
+  "description": {
+    "en": "Dude, where is my Cowboy Bike?"
+  },
+  "tags": {
+    "en": [
+      "bike",
+      "bicycle",
+      "Cowboy",
+      "vanMoof",
+      "van moof",
+      "e-bike",
+      "urban"
+    ]
+  },
+  "category": [
+    "localization"
+  ],
+  "permissions": [
+    "homey:manager:geolocation"
+  ],
+  "images": {
+    "small": "/assets/images/app_small.jpg",
+    "large": "/assets/images/app_large.jpg"
+  },
+  "author": {
+    "name": "Robin de Gruijter",
+    "email": "gruijter@hotmail.com"
+  },
+  "copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+  "license": "GPL-3.0-or-later",
+  "contributors": {
+    "developers": [
+      {
+        "name": "Robin de Gruijter",
+        "email": "gruijter@hotmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "gruijter"
+      }
+    }
+  },
+  "homeyCommunityTopicId": 69767
+}

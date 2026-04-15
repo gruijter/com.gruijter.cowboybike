@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Last trip distance changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=cowboy"
+		}
+	],
+	"tokens": [
+		{
+			"name": "meter_trip",
+			"type": "number",
+			"title": { 
+				"en": "Distance"
+			},
+			"example": 42
+		}
+	]
+}

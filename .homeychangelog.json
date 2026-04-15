@@ -1,0 +1,26 @@
+{
+  "1.0.0": {
+    "en": "First release"
+  },
+  "1.0.1": {
+    "en": "First release with store compliant readme."
+  },
+  "2.0.0": {
+    "en": "Added last trip distance and duration. Added relocation alarm. Added offline alarm. Added many flow triggers. Fixed range value."
+  },
+  "2.0.1": {
+    "en": "Added alarm icons. Improved last parked detection. Changed default offline alarm time to 9 hours."
+  },
+  "2.0.2": {
+    "en": "Stability improvements."
+  },
+  "2.0.3": {
+    "en": "Last parked is only updated on >250m displacement or odo change. Wait extra for incoming odo change."
+  },
+  "2.0.4": {
+    "en": "Reduced app footprint."
+  },
+  "3.0.0": {
+    "en": "API rewrite. Fixed concurrent use with native Cowboy app."
+  }
+}

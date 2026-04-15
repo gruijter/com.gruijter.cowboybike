@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Location changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=cowboy"
+		}
+	],
+	"tokens": [
+		{
+			"name": "location",
+			"type": "string",
+			"title": { 
+				"en": "Location"
+			},
+			"example": "Amsterdam, Central Station"
+		}
+	]
+}

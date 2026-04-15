@@ -1,0 +1,15 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Longitude",
+		"sv": "Längdgrad"
+	},
+	"units": {
+		"en": "degrees",
+		"sv": "grader"
+	},
+	"getable": true,
+	"setable": false,
+	"insights": false,
+	"uiComponent": null
+}

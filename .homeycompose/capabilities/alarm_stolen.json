@@ -1,0 +1,20 @@
+{
+	"type": "boolean",
+	"title": {
+	  "en": "Stolen alarm"
+	},
+	"desc": {
+	  "en": "True when stolen"
+	},
+	"insights": true,
+	"insightsTitleTrue": {
+	  "en": "Stolen alarm turned on"
+	},
+	"insightsTitleFalse": {
+	  "en": "Stolen alarm turned off"
+	},
+	"getable": true,
+	"setable": false,
+	"uiComponent": "sensor",
+	"icon": "./assets/alarm_stolen.svg"
+  }

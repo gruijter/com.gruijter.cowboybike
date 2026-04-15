@@ -1,0 +1,20 @@
+{
+	"type": "boolean",
+	"title": {
+	  "en": "Crashed alarm"
+	},
+	"desc": {
+	  "en": "True when crashed"
+	},
+	"insights": true,
+	"insightsTitleTrue": {
+	  "en": "Crashed alarm turned on"
+	},
+	"insightsTitleFalse": {
+	  "en": "Crashed alarm turned off"
+	},
+	"getable": true,
+	"setable": false,
+	"uiComponent": "sensor",
+	"icon": "./assets/alarm_crash.svg"
+  }

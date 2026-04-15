@@ -1,0 +1,9 @@
+{
+	"type": "string",
+	"title": {
+		"en": "Last parked"
+	},
+	"getable": true,
+	"setable": false,
+	"icon": "./assets/last_parked.svg"
+}

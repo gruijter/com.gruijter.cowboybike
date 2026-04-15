@@ -1,0 +1,15 @@
+{
+	"title": {
+		"en": "Relocated Alarm turned On"
+	},
+	"highlight": true,
+	"args": [
+		{
+			"type": "device",
+			"name": "device",
+			"filter": "driver_id=cowboy"
+		}
+	]
+}
+
+

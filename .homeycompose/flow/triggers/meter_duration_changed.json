@@ -1,0 +1,23 @@
+{
+	"title": { 
+		"en": "Total biking time changed"
+	},
+	"highlight": true,
+	"args": [
+		{
+				"type": "device",
+				"name": "device",
+				"filter": "driver_id=cowboy"
+		}
+	],
+	"tokens": [
+		{
+			"name": "meter_duration",
+			"type": "number",
+			"title": { 
+				"en": "Total biking time"
+			},
+			"example": 125.42
+		}
+	]
+}

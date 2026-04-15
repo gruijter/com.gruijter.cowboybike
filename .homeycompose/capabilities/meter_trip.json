@@ -1,0 +1,14 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Last trip distance"
+	},
+	"units": {
+		"en": "km"
+	},
+	"decimals": 2,
+	"getable": true,
+	"setable": false,
+	"insights": false,
+	"icon": "./assets/distance_trip.svg"
+}

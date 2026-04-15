@@ -1,0 +1,968 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.gruijter.cowboybike",
+  "version": "3.0.0",
+  "compatibility": ">=10.0.0",
+  "sdk": 3,
+  "brandColor": "#272727",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Cowboy Bike"
+  },
+  "description": {
+    "en": "Dude, where is my Cowboy Bike?"
+  },
+  "tags": {
+    "en": [
+      "bike",
+      "bicycle",
+      "Cowboy",
+      "vanMoof",
+      "van moof",
+      "e-bike",
+      "urban"
+    ]
+  },
+  "category": [
+    "localization"
+  ],
+  "permissions": [
+    "homey:manager:geolocation"
+  ],
+  "images": {
+    "small": "/assets/images/app_small.jpg",
+    "large": "/assets/images/app_large.jpg"
+  },
+  "author": {
+    "name": "Robin de Gruijter",
+    "email": "gruijter@hotmail.com"
+  },
+  "copyright": "Robin de Gruijter (gruijter@hotmail.com)",
+  "license": "GPL-3.0-or-later",
+  "contributors": {
+    "developers": [
+      {
+        "name": "Robin de Gruijter",
+        "email": "gruijter@hotmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "gruijter"
+      }
+    }
+  },
+  "homeyCommunityTopicId": 69767,
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Battery Alarm turned Off"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_bat_false"
+      },
+      {
+        "title": {
+          "en": "Battery Alarm turned On"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_bat_true"
+      },
+      {
+        "title": {
+          "en": "Crash Alarm turned Off"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_crashed_false"
+      },
+      {
+        "title": {
+          "en": "Crash Alarm turned On"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_crashed_true"
+      },
+      {
+        "title": {
+          "en": "Offline Alarm turned Off"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_offline_false"
+      },
+      {
+        "title": {
+          "en": "Offline Alarm turned On"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_offline_true"
+      },
+      {
+        "title": {
+          "en": "Battery Alarm turned Off"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_relocated_false"
+      },
+      {
+        "title": {
+          "en": "Relocated Alarm turned On"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_relocated_true"
+      },
+      {
+        "title": {
+          "en": "Relocated Alarm turned Off"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_stolen_false"
+      },
+      {
+        "title": {
+          "en": "Stolen Alarm turned On"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "id": "alarm_stolen_true"
+      },
+      {
+        "title": {
+          "en": "Last parked time changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "last_parked",
+            "type": "string",
+            "title": {
+              "en": "Last parked"
+            },
+            "example": "Sep 03 15:50"
+          }
+        ],
+        "id": "last_parked_changed"
+      },
+      {
+        "title": {
+          "en": "Location changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "location",
+            "type": "string",
+            "title": {
+              "en": "Location"
+            },
+            "example": "Amsterdam, Central Station"
+          }
+        ],
+        "id": "location_changed"
+      },
+      {
+        "title": {
+          "en": "Park distance changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_distance",
+            "type": "number",
+            "title": {
+              "en": "Park distance"
+            },
+            "example": 42
+          }
+        ],
+        "id": "meter_distance_changed"
+      },
+      {
+        "title": {
+          "en": "Total biking time changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_duration",
+            "type": "number",
+            "title": {
+              "en": "Total biking time"
+            },
+            "example": 125.42
+          }
+        ],
+        "id": "meter_duration_changed"
+      },
+      {
+        "title": {
+          "en": "Odometer changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_odo",
+            "type": "number",
+            "title": {
+              "en": "Odometer"
+            },
+            "example": 12598
+          }
+        ],
+        "id": "meter_odo_changed"
+      },
+      {
+        "title": {
+          "en": "Range changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_range",
+            "type": "number",
+            "title": {
+              "en": "Range"
+            },
+            "example": 42
+          }
+        ],
+        "id": "meter_range_changed"
+      },
+      {
+        "title": {
+          "en": "Last trip speed changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_speed",
+            "type": "number",
+            "title": {
+              "en": "Speed"
+            },
+            "example": 28
+          }
+        ],
+        "id": "meter_speed_changed"
+      },
+      {
+        "title": {
+          "en": "Last trip distance changed"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "meter_trip",
+            "type": "number",
+            "title": {
+              "en": "Distance"
+            },
+            "example": 42
+          }
+        ],
+        "id": "meter_trip_changed"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "cowboy"
+      },
+      "class": "sensor",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [],
+      "capabilities": [],
+      "capabilitiesOptions": {
+        "measure_battery": {
+          "title": {
+            "en": "Battery",
+            "sv": "Batteri"
+          }
+        },
+        "measure_battery.pcb": {
+          "title": {
+            "en": "PCB Battery",
+            "sv": "PCB Batteri"
+          }
+        }
+      },
+      "images": {
+        "large": "/drivers/cowboy/assets/images/large.png",
+        "small": "/drivers/cowboy/assets/images/small.png"
+      },
+      "energy": {
+        "batteries": [
+          "INTERNAL"
+        ],
+        "usageConstant": 0
+      },
+      "pair": [
+        {
+          "id": "login_credentials",
+          "template": "login_credentials",
+          "options": {
+            "usernameLabel": {
+              "en": "E-mail address"
+            },
+            "usernamePlaceholder": {
+              "en": "john@doe.com"
+            },
+            "passwordLabel": {
+              "en": "Password"
+            },
+            "passwordPlaceholder": {
+              "en": "Password"
+            }
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "cowboy",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Bike information"
+          },
+          "children": [
+            {
+              "id": "model",
+              "type": "label",
+              "label": {
+                "en": "Model"
+              },
+              "value": ""
+            },
+            {
+              "id": "sku",
+              "type": "label",
+              "label": {
+                "en": "SKU"
+              },
+              "value": "",
+              "hint": {
+                "en": "The manufacturer part number."
+              }
+            },
+            {
+              "id": "serial",
+              "type": "label",
+              "label": {
+                "en": "Serial number"
+              },
+              "value": ""
+            },
+            {
+              "id": "mac",
+              "type": "label",
+              "label": {
+                "en": "MAC address"
+              },
+              "value": ""
+            },
+            {
+              "id": "actDate",
+              "type": "label",
+              "label": {
+                "en": "Activation date"
+              },
+              "value": ""
+            },
+            {
+              "id": "firmware",
+              "type": "label",
+              "label": {
+                "en": "Firmware"
+              },
+              "value": ""
+            },
+            {
+              "id": "maxSpeed",
+              "type": "label",
+              "label": {
+                "en": "Maximum speed"
+              },
+              "value": ""
+            },
+            {
+              "id": "maxRange",
+              "type": "label",
+              "label": {
+                "en": "Maximum range"
+              },
+              "value": "",
+              "hint": {
+                "en": "The maximum supported battery range."
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Connection settings"
+          },
+          "children": [
+            {
+              "id": "email",
+              "type": "text",
+              "label": {
+                "en": "Email"
+              },
+              "value": ""
+            },
+            {
+              "id": "password",
+              "type": "password",
+              "label": {
+                "en": "Password"
+              },
+              "value": ""
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Status update settings"
+          },
+          "children": [
+            {
+              "id": "pollInterval",
+              "type": "number",
+              "label": {
+                "en": "Update interval (minutes)"
+              },
+              "hint": {
+                "en": "Interval for checking the server for a status change."
+              },
+              "min": 0.1,
+              "max": 60,
+              "value": 5
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Home location settings"
+          },
+          "children": [
+            {
+              "id": "lat",
+              "type": "number",
+              "label": {
+                "en": "Home latitude"
+              },
+              "hint": {
+                "en": "Home location is used to calculate the bike's distance."
+              },
+              "value": 0
+            },
+            {
+              "id": "lon",
+              "type": "number",
+              "label": {
+                "en": "Home longitude"
+              },
+              "hint": {
+                "en": "Home location is used to calculate the bike's distance."
+              },
+              "value": 0
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Various settings"
+          },
+          "children": [
+            {
+              "id": "offlineAlarmTime",
+              "type": "number",
+              "label": {
+                "en": "Offline alarm time (Hrs)"
+              },
+              "hint": {
+                "en": "Homey will raise an offline alarm when the bike hasn't reported for a long time. Default is 9 hours."
+              },
+              "min": 3,
+              "value": 9
+            },
+            {
+              "id": "relocationAlarmDistance",
+              "type": "number",
+              "label": {
+                "en": "Relocation alarm distance (kM)"
+              },
+              "hint": {
+                "en": "Homey will raise a relocation alarm when the bike has moved without biking."
+              },
+              "min": 0.25,
+              "value": 0.5
+            },
+            {
+              "id": "batteryAlarmLevel",
+              "type": "number",
+              "label": {
+                "en": "Battery alarm level (%)"
+              },
+              "hint": {
+                "en": "Homey will raise an alarm when the battery charge is below this level."
+              },
+              "min": 0,
+              "max": 100,
+              "value": 15
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "alarm_batt": {
+      "type": "boolean",
+      "title": {
+        "en": "Battery alarm",
+        "nl": "Batterij alarm",
+        "de": "Batterie-Alarm",
+        "fr": "Alarme batterie",
+        "it": "Allarme batteria",
+        "sv": "Batterialarm",
+        "no": "Batterialarm",
+        "es": "Alarma de batería",
+        "da": "Batterialarm"
+      },
+      "desc": {
+        "en": "True when there is a battery warning",
+        "nl": "Geeft een batterijwaarschuwing",
+        "de": "True, wenn es eine Batterie-Warnung gibt",
+        "fr": "Vrai quand il y a un avertissement de batterie",
+        "it": "Vero quando c'è un avvertimento sulla batteria",
+        "sv": "Sant när det finns en batterivarning",
+        "no": "Sant når det finnes en batteriadvarsel",
+        "es": "Verdadero cuando hay una advertencia de la batería",
+        "da": "Sandt, når der er en batterialarm"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Battery alarm turned on",
+        "nl": "Batterijalarm ging af",
+        "de": "Batterie-Alarm ist angegangen",
+        "fr": "Alarme batterie activée",
+        "it": "Allarme batteria attivato",
+        "sv": "Batterialarm aktiverat",
+        "no": "Batterialarm aktivert",
+        "es": "Alarma de la batería activada",
+        "da": "Batterialarm aktiveret"
+      },
+      "insightsTitleFalse": {
+        "en": "Battery alarm turned off",
+        "nl": "Batterijalarm ging uit",
+        "de": "Batterie-Alarm ist ausgegangen",
+        "fr": "Alarme batterie désactivée",
+        "it": "Allarme batteria disattivato",
+        "sv": "Batterialarm avstängt",
+        "no": "Batterialarm deaktivert",
+        "es": "Alarma de la batería desactivada",
+        "da": "Batterialarm deaktiveret"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_battery.svg"
+    },
+    "alarm_crashed": {
+      "type": "boolean",
+      "title": {
+        "en": "Crashed alarm"
+      },
+      "desc": {
+        "en": "True when crashed"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Crashed alarm turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Crashed alarm turned off"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_crash.svg"
+    },
+    "alarm_offline": {
+      "type": "boolean",
+      "title": {
+        "en": "Offline alarm"
+      },
+      "desc": {
+        "en": "True when not seen long time"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Offline alarm turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Offline alarm turned off"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_offline.svg"
+    },
+    "alarm_relocated": {
+      "type": "boolean",
+      "title": {
+        "en": "Relocated alarm"
+      },
+      "desc": {
+        "en": "True when relocated"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Relocated alarm turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Relocated alarm turned off"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_relocated.svg"
+    },
+    "alarm_stolen": {
+      "type": "boolean",
+      "title": {
+        "en": "Stolen alarm"
+      },
+      "desc": {
+        "en": "True when stolen"
+      },
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "Stolen alarm turned on"
+      },
+      "insightsTitleFalse": {
+        "en": "Stolen alarm turned off"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/alarm_stolen.svg"
+    },
+    "etth": {
+      "type": "number",
+      "title": {
+        "en": "ETTH"
+      },
+      "units": {
+        "en": "minutes"
+      },
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "icon": "./assets/etth.svg"
+    },
+    "last_parked": {
+      "type": "string",
+      "title": {
+        "en": "Last parked"
+      },
+      "getable": true,
+      "setable": false,
+      "icon": "./assets/last_parked.svg"
+    },
+    "latitude": {
+      "type": "number",
+      "title": {
+        "en": "Latitude",
+        "sv": "Breddgrad"
+      },
+      "units": {
+        "en": "degrees",
+        "sv": "grader"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": null
+    },
+    "location": {
+      "type": "string",
+      "title": {
+        "en": "Park location",
+        "nl": "Locatie",
+        "sv": "Plats"
+      },
+      "desc": {
+        "en": "Last parking location"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "icon": "./assets/location.svg"
+    },
+    "longitude": {
+      "type": "number",
+      "title": {
+        "en": "Longitude",
+        "sv": "Längdgrad"
+      },
+      "units": {
+        "en": "degrees",
+        "sv": "grader"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": null
+    },
+    "measure_battery": {
+      "type": "number",
+      "title": {
+        "en": "Battery"
+      },
+      "units": {
+        "en": "%"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "battery"
+    },
+    "meter_distance": {
+      "type": "number",
+      "title": {
+        "en": "Park distance"
+      },
+      "units": {
+        "en": "km"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "icon": "./assets/distance.svg"
+    },
+    "meter_duration": {
+      "type": "number",
+      "title": {
+        "en": "Total biking time"
+      },
+      "units": {
+        "en": "hrs"
+      },
+      "decimals": 2,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/total_time.svg"
+    },
+    "meter_odo": {
+      "type": "number",
+      "title": {
+        "en": "Odometer"
+      },
+      "units": {
+        "en": "km"
+      },
+      "decimals": 2,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/odometer.svg"
+    },
+    "meter_range": {
+      "type": "number",
+      "title": {
+        "en": "Range"
+      },
+      "units": {
+        "en": "km"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/range.svg"
+    },
+    "meter_speed": {
+      "type": "number",
+      "title": {
+        "en": "Last trip speed"
+      },
+      "units": {
+        "en": "km/h"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/speed.svg"
+    },
+    "meter_trip": {
+      "type": "number",
+      "title": {
+        "en": "Last trip distance"
+      },
+      "units": {
+        "en": "km"
+      },
+      "decimals": 2,
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "icon": "./assets/distance_trip.svg"
+    }
+  }
+}

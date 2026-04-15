@@ -1,0 +1,14 @@
+{
+	"type": "number",
+	"title": {
+		"en": "Park distance"
+	},
+	"units": {
+		"en": "km"
+	},
+	"decimals": 1,
+	"getable": true,
+	"setable": false,
+	"insights": false,
+	"icon": "./assets/distance.svg"
+}

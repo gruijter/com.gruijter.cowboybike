@@ -1,0 +1,5 @@
+# Cowboy Bike
+
+Dude, where is my Cowboy Bike?
+
+Your e-bike has become a home connected smart device. Homey knows when and where your bike was last parked and has information on your bike trips. It alarms if the bike was moved without cycling, when not online anymore, or if your battery needs charging.

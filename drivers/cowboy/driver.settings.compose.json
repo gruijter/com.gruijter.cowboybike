@@ -1,0 +1,200 @@
+[
+	{
+		"type": "group",
+		"label": {
+				"en": "Bike information"
+		},
+		"children": [
+				{
+					"id": "model",
+					"type": "label",
+					"label": {
+							"en": "Model"
+					},
+					"value": ""
+				},
+				{
+					"id": "sku",
+					"type": "label",
+					"label": {
+							"en": "SKU"
+					},
+					"value": "",
+					"hint": {
+						"en": "The manufacturer part number."
+					}
+				},
+				{
+					"id": "serial",
+					"type": "label",
+					"label": {
+							"en": "Serial number"
+					},
+					"value": ""
+				},
+				{
+					"id": "mac",
+					"type": "label",
+					"label": {
+							"en": "MAC address"
+					},
+					"value": ""
+				},
+				{
+					"id": "actDate",
+					"type": "label",
+					"label": {
+							"en": "Activation date"
+					},
+					"value": ""
+				},
+				{
+					"id": "firmware",
+					"type": "label",
+					"label": {
+							"en": "Firmware"
+					},
+					"value": ""
+				},
+				{
+					"id": "maxSpeed",
+					"type": "label",
+					"label": {
+							"en": "Maximum speed"
+					},
+					"value": ""
+				},
+				{
+					"id": "maxRange",
+					"type": "label",
+					"label": {
+							"en": "Maximum range"
+					},
+					"value": "",
+					"hint": {
+						"en": "The maximum supported battery range."
+					}
+				}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Connection settings"
+		},
+		"children": [
+			{
+					"id": "email",
+					"type": "text",
+					"label": {
+							"en": "Email"
+					},
+					"value": ""
+			},
+			{
+					"id": "password",
+					"type": "password",
+					"label": {
+							"en": "Password"
+					},
+					"value": ""
+			}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+				"en": "Status update settings"
+		},
+		"children": [
+			{
+				"id": "pollInterval",
+				"type": "number",
+				"label": {
+						"en": "Update interval (minutes)"
+				},
+				"hint": {
+					"en": "Interval for checking the server for a status change."
+					},
+				"min": 0.1,
+				"max": 60,
+				"value": 5
+			}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+						"en": "Home location settings"
+		},
+		"children": [
+				{
+						"id": "lat",
+						"type": "number",
+						"label": {
+							"en": "Home latitude"
+						},
+						"hint": {
+							"en": "Home location is used to calculate the bike's distance."
+						},
+						"value": 0
+				},
+				{
+						"id": "lon",
+						"type": "number",
+						"label": {
+							"en": "Home longitude"
+						},
+						"hint": {
+							"en": "Home location is used to calculate the bike's distance."
+						},
+						"value": 0
+				}
+		]
+	},
+	{
+		"type": "group",
+		"label": {
+						"en": "Various settings"
+		},
+		"children": [
+			{
+				"id": "offlineAlarmTime",
+				"type": "number",
+				"label": {
+					"en": "Offline alarm time (Hrs)"
+				},
+				"hint": {
+					"en": "Homey will raise an offline alarm when the bike hasn't reported for a long time. Default is 9 hours."
+				},
+				"min": 3,
+				"value": 9
+			},
+			{
+				"id": "relocationAlarmDistance",
+				"type": "number",
+				"label": {
+					"en": "Relocation alarm distance (kM)"
+				},
+				"hint": {
+					"en": "Homey will raise a relocation alarm when the bike has moved without biking."
+				},
+				"min": 0.25,
+				"value": 0.5
+			},
+			{
+				"id": "batteryAlarmLevel",
+				"type": "number",
+				"label": {
+					"en": "Battery alarm level (%)"
+				},
+				"hint": {
+					"en": "Homey will raise an alarm when the battery charge is below this level."
+				},
+				"min": 0,
+				"max": 100,
+				"value": 15
+			}
+		]
+	}
+]
