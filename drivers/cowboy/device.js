@@ -51,6 +51,22 @@ class MyDevice extends Device {
       this.nominatim = new Nominatim();
       await this.cowboy.getMe();
       this.log(JSON.stringify(this.cowboy.data));
+
+      try {
+        const metrics = await this.cowboy.getTripMetrics().catch((e) => (e ? e.message : 'fail'));
+        const records = await this.cowboy.getPersonalRecords().catch((e) => (e ? e.message : 'fail'));
+        const badges = await this.cowboy.getBadges().catch((e) => (e ? e.message : 'fail'));
+        const highlights = await this.cowboy.getHighlights().catch((e) => (e ? e.message : 'fail'));
+        const offset = await this.cowboy.getTripsOffset().catch((e) => (e ? e.message : 'fail'));
+
+        this.log('[DIAGNOSTIC METRICS]:', JSON.stringify(metrics));
+        this.log('[DIAGNOSTIC RECORDS]:', JSON.stringify(records));
+        this.log('[DIAGNOSTIC BADGES]:', JSON.stringify(badges));
+        this.log('[DIAGNOSTIC HIGHLIGHTS]:', JSON.stringify(highlights));
+        this.log('[DIAGNOSTIC OFFSET]:', JSON.stringify(offset));
+      } catch (e) {
+        this.error('[DIAGNOSTIC ERROR]:', e);
+      }
       await this.handleData();
       this.startPolling(settings.pollInterval);
       this.log(`${this.getName()} has been initialized`);
