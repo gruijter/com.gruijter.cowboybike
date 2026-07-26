@@ -1,0 +1,38 @@
+{
+  "title": {
+    "en": "Get stringified JSON info",
+    "nl": "Haal stringified JSON info op"
+  },
+  "titleFormatted": {
+    "en": "Get JSON info [[data_type]]",
+    "nl": "Haal JSON info [[data_type]] op"
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=cowboy"
+    },
+    {
+      "type": "dropdown",
+      "name": "data_type",
+      "values": [
+        { "id": "bike_status", "label": { "en": "Bike status & telemetry", "nl": "Fietsstatus & telemetrie" } },
+        { "id": "personal_records", "label": { "en": "Personal records", "nl": "Persoonlijke records" } },
+        { "id": "badges_summary", "label": { "en": "Badges & milestones", "nl": "Badges & mijlpalen" } },
+        { "id": "user_profile", "label": { "en": "User profile & settings", "nl": "Gebruikersprofiel & instellingen" } }
+      ]
+    }
+  ],
+  "tokens": [
+    {
+      "name": "json_data",
+      "type": "string",
+      "title": {
+        "en": "JSON Data",
+        "nl": "JSON Data"
+      },
+      "example": "{\"nickname\":\"RobinsBike\",\"battery\":60}"
+    }
+  ]
+}

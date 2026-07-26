@@ -74,6 +74,33 @@
 					"hint": {
 						"en": "The maximum supported battery range."
 					}
+				},
+				{
+					"id": "ledBrightness",
+					"type": "label",
+					"label": {
+							"en": "LED brightness",
+							"nl": "LED helderheid"
+					},
+					"value": ""
+				},
+				{
+					"id": "autoUnlock",
+					"type": "label",
+					"label": {
+							"en": "Auto unlock",
+							"nl": "Auto ontgrendelen"
+					},
+					"value": ""
+				},
+				{
+					"id": "smartLock",
+					"type": "label",
+					"label": {
+							"en": "Smart lock",
+							"nl": "Smart lock"
+					},
+					"value": ""
 				}
 		]
 	},

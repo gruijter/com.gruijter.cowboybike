@@ -1,0 +1,34 @@
+{
+  "title": {
+    "en": "A new badge or milestone was unlocked",
+    "nl": "Nieuwe badge of mijlpaal behaald"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=cowboy"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "badge_name",
+      "type": "string",
+      "title": {
+        "en": "Badge name",
+        "nl": "Badge naam"
+      },
+      "example": "1000 Club"
+    },
+    {
+      "name": "badge_description",
+      "type": "string",
+      "title": {
+        "en": "Description",
+        "nl": "Omschrijving"
+      },
+      "example": "Rij minstens 1,000 km en kom bij de club"
+    }
+  ]
+}

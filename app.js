@@ -25,6 +25,37 @@ class MyApp extends Homey.App {
 
   async onInit() {
     this.log('Cowboy app has been initialized');
+
+    try {
+      this.homey.flow.getActionCard('get_json_info').registerRunListener(async (args) => {
+        if (!args || !args.device) return { json_data: '{}' };
+        const targetDevice = args.device;
+        const dataType = args.data_type || 'bike_status';
+        let payload = {};
+
+        if (dataType === 'bike_status') {
+          payload = (targetDevice.cowboy && targetDevice.cowboy.data && targetDevice.cowboy.data.bike) || {};
+        } else if (dataType === 'personal_records') {
+          payload = (targetDevice._statsCache && targetDevice._statsCache.records) || {};
+        } else if (dataType === 'badges_summary') {
+          if (targetDevice.cowboy && typeof targetDevice.cowboy.getBadges === 'function') {
+            payload = await targetDevice.cowboy.getBadges().catch(() => ({}));
+          }
+        } else if (dataType === 'user_profile') {
+          const fullData = (targetDevice.cowboy && targetDevice.cowboy.data) || {};
+          const { bike, ...userData } = fullData;
+          payload = userData;
+        }
+
+        let jsonString = JSON.stringify(payload);
+        if (jsonString.length > 490) {
+          jsonString = jsonString.substring(0, 487) + '...';
+        }
+        return { json_data: jsonString };
+      });
+    } catch (e) {
+      this.error('Failed to register get_json_info action card:', e);
+    }
   }
 
 }

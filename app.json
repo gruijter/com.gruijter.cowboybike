@@ -201,6 +201,41 @@
       },
       {
         "title": {
+          "en": "A new badge or milestone was unlocked",
+          "nl": "Nieuwe badge of mijlpaal behaald"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "badge_name",
+            "type": "string",
+            "title": {
+              "en": "Badge name",
+              "nl": "Badge naam"
+            },
+            "example": "1000 Club"
+          },
+          {
+            "name": "badge_description",
+            "type": "string",
+            "title": {
+              "en": "Description",
+              "nl": "Omschrijving"
+            },
+            "example": "Rij minstens 1,000 km en kom bij de club"
+          }
+        ],
+        "id": "badge_achieved"
+      },
+      {
+        "title": {
           "en": "Last parked time changed"
         },
         "highlight": true,
@@ -390,6 +425,106 @@
           }
         ],
         "id": "meter_trip_changed"
+      },
+      {
+        "title": {
+          "en": "A personal record was broken",
+          "nl": "Persoonlijk record verbroken"
+        },
+        "highlight": true,
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "record_name",
+            "type": "string",
+            "title": {
+              "en": "Record name",
+              "nl": "Record naam"
+            },
+            "example": "Hoogste snelheid"
+          },
+          {
+            "name": "record_value",
+            "type": "string",
+            "title": {
+              "en": "Record value",
+              "nl": "Record waarde"
+            },
+            "example": "41 km/h"
+          }
+        ],
+        "id": "record_broken"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Get stringified JSON info",
+          "nl": "Haal stringified JSON info op"
+        },
+        "titleFormatted": {
+          "en": "Get JSON info [[data_type]]",
+          "nl": "Haal JSON info [[data_type]] op"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=cowboy"
+          },
+          {
+            "type": "dropdown",
+            "name": "data_type",
+            "values": [
+              {
+                "id": "bike_status",
+                "label": {
+                  "en": "Bike status & telemetry",
+                  "nl": "Fietsstatus & telemetrie"
+                }
+              },
+              {
+                "id": "personal_records",
+                "label": {
+                  "en": "Personal records",
+                  "nl": "Persoonlijke records"
+                }
+              },
+              {
+                "id": "badges_summary",
+                "label": {
+                  "en": "Badges & milestones",
+                  "nl": "Badges & mijlpalen"
+                }
+              },
+              {
+                "id": "user_profile",
+                "label": {
+                  "en": "User profile & settings",
+                  "nl": "Gebruikersprofiel & instellingen"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "json_data",
+            "type": "string",
+            "title": {
+              "en": "JSON Data",
+              "nl": "JSON Data"
+            },
+            "example": "{\"nickname\":\"RobinsBike\",\"battery\":60}"
+          }
+        ],
+        "id": "get_json_info"
       }
     ]
   },
@@ -536,6 +671,33 @@
               "hint": {
                 "en": "The maximum supported battery range."
               }
+            },
+            {
+              "id": "ledBrightness",
+              "type": "label",
+              "label": {
+                "en": "LED brightness",
+                "nl": "LED helderheid"
+              },
+              "value": ""
+            },
+            {
+              "id": "autoUnlock",
+              "type": "label",
+              "label": {
+                "en": "Auto unlock",
+                "nl": "Auto ontgrendelen"
+              },
+              "value": ""
+            },
+            {
+              "id": "smartLock",
+              "type": "label",
+              "label": {
+                "en": "Smart lock",
+                "nl": "Smart lock"
+              },
+              "value": ""
             }
           ]
         },

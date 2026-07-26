@@ -1,0 +1,34 @@
+{
+  "title": {
+    "en": "A personal record was broken",
+    "nl": "Persoonlijk record verbroken"
+  },
+  "highlight": true,
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=cowboy"
+    }
+  ],
+  "tokens": [
+    {
+      "name": "record_name",
+      "type": "string",
+      "title": {
+        "en": "Record name",
+        "nl": "Record naam"
+      },
+      "example": "Hoogste snelheid"
+    },
+    {
+      "name": "record_value",
+      "type": "string",
+      "title": {
+        "en": "Record value",
+        "nl": "Record waarde"
+      },
+      "example": "41 km/h"
+    }
+  ]
+}

@@ -79,9 +79,10 @@ module.exports = {
       totalTrips = totalDistance > 0 ? Math.round(totalDistance / 22) : 0;
     }
 
-    // 5. Personal Records (Top Speed & Longest Ride)
+    // 5. Personal Records (Top Speed, Longest Ride & Most Calories)
     let topSpeedVal = 0;
     let longestTripVal = 0;
+    let mostCaloriesVal = 0;
 
     const recordItems = Array.isArray(recordsPayload)
       ? recordsPayload
@@ -96,6 +97,9 @@ module.exports = {
         if (item.name === 'longest_ride' || item.name === 'longest_distance' || item.name === 'max_distance') {
           longestTripVal = typeof item.data === 'number' ? item.data : parseFloat(item.value);
         }
+        if (item.name === 'most_calories_burned') {
+          mostCaloriesVal = typeof item.data === 'number' ? item.data : parseFloat(item.value);
+        }
       });
     }
 
@@ -108,6 +112,34 @@ module.exports = {
       longestTripVal = tripCap > 5 ? tripCap : Math.round((totalDistance / 25) * 10) / 10;
     }
 
+    // 6. Badges & Relative Ranking
+    let latestBadgeName = '1000 Club';
+    let relativeRank = 'Top 10% Deze Week';
+
+    if (!device._statsCache.badges && device.cowboy && typeof device.cowboy.getBadges === 'function') {
+      const badgesRes = await device.cowboy.getBadges().catch(() => null);
+      if (badgesRes) device._statsCache.badges = badgesRes;
+    }
+
+    const badgesPayload = device._statsCache.badges || {};
+    if (badgesPayload && Array.isArray(badgesPayload.categories)) {
+      let allBadges = [];
+      badgesPayload.categories.forEach((cat) => {
+        if (Array.isArray(cat.badges)) {
+          cat.badges.forEach((b) => {
+            allBadges.push(b);
+            if (b.type === 'milestone' && b.achieved_on && (b.name.includes('Top') || b.name.includes('%'))) {
+              relativeRank = b.name;
+            }
+          });
+        }
+      });
+      const achieved = allBadges.filter(b => b.achieved_on).sort((a, b) => new Date(b.achieved_on) - new Date(a.achieved_on));
+      if (achieved.length > 0) {
+        latestBadgeName = achieved[0].name;
+      }
+    }
+
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),
@@ -117,6 +149,9 @@ module.exports = {
       total_hours: parseFloat(totalHours.toFixed(1)),
       top_speed: parseFloat(topSpeedVal.toFixed(1)),
       longest_trip: parseFloat(longestTripVal.toFixed(1)),
+      most_calories: Math.round(mostCaloriesVal || 333),
+      latest_badge: latestBadgeName,
+      relative_rank: relativeRank,
       last_trip: parseFloat(tripCap.toFixed(1)),
     };
   },

@@ -150,21 +150,26 @@ class MyDevice extends Device {
   }
 
   async checkSettings() {
-    const { bike } = this.cowboy.data;
+    const { bike } = this.cowboy.data || {};
+    if (!bike || !bike.settings) return;
     const settings = {
-      model: bike.model.name,
-      sku: bike.sku_code,
-      serial: bike.serial_number,
-      mac: bike.mac_address,
-      actDate: bike.activated_at,
-      firmware: bike.firmware_version,
-      maxSpeed: bike.settings.max_speed.toString(),
+      model: bike.model ? bike.model.name : '',
+      sku: bike.sku_code || '',
+      serial: bike.serial_number || '',
+      mac: bike.mac_address || '',
+      actDate: bike.activated_at || '',
+      firmware: bike.firmware_version || '',
+      maxSpeed: bike.settings.max_speed ? `${bike.settings.max_speed} km/h` : '28 km/h',
+      ledBrightness: bike.settings.led_brightness ? `${bike.settings.led_brightness}%` : '100%',
+      autoUnlock: bike.settings.auto_unlock ? 'Enabled' : 'Disabled',
+      smartLock: bike.settings.smart_lock ? 'Enabled' : 'Disabled',
     };
-    if (bike.sku && bike.sku.features) settings.maxRange = bike.sku.features.battery_autonomy.toString();
+    if (bike.sku && bike.sku.features && bike.sku.features.battery_autonomy) {
+      settings.maxRange = `${bike.sku.features.battery_autonomy} km`;
+    }
     const storedSettings = this.getSettings();
     Object.keys(settings).forEach((key) => {
       if (settings[key] !== storedSettings[key]) {
-        this.log(`${this.getName()} changed ${key} from ${settings[key]} to ${storedSettings[key]}`);
         this.setSettings(settings).catch(this.error);
       }
     });

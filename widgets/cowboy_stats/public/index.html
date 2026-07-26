@@ -186,7 +186,7 @@
     <!-- Header -->
     <div class="header">
       <div class="bike-name" id="bike-name">COWBOY BIKE</div>
-      <div class="badge-stats">🏆 PERFORMANCE STATS</div>
+      <div class="badge-stats" id="rank-badge">🏆 <span id="rank-val">TOP RIDER</span></div>
     </div>
 
     <!-- 2x2 Highlight Metric Cards -->
@@ -229,16 +229,26 @@
       <img src="bike.png" alt="Cowboy Bike" class="bike-img" />
     </div>
 
-    <!-- Footer Personal Records -->
+    <!-- Footer Personal Records & Badges -->
     <div class="records-section">
       <div class="record-item">
-        <div class="record-label">⚡ Top Speed Record</div>
+        <div class="record-label">⚡ Top Speed</div>
         <div class="record-value" id="top-speed-val">-- km/h</div>
       </div>
       <div class="record-divider"></div>
       <div class="record-item">
-        <div class="record-label">🚩 Longest Ride Record</div>
+        <div class="record-label">🚩 Longest</div>
         <div class="record-value" id="longest-trip-val">-- km</div>
+      </div>
+      <div class="record-divider"></div>
+      <div class="record-item">
+        <div class="record-label">🔥 Max Energy</div>
+        <div class="record-value" id="calories-val">-- kcal</div>
+      </div>
+      <div class="record-divider"></div>
+      <div class="record-item">
+        <div class="record-label">🎖️ Latest Badge</div>
+        <div class="record-value" id="badge-val">--</div>
       </div>
     </div>
   </div>
@@ -263,20 +273,26 @@
         if (!data) return;
 
         var bikeName = document.getElementById('bike-name');
+        var rankVal = document.getElementById('rank-val');
         var co2Val = document.getElementById('co2-val');
         var odoVal = document.getElementById('odo-val');
         var tripsVal = document.getElementById('trips-val');
         var hoursVal = document.getElementById('hours-val');
         var topSpeedVal = document.getElementById('top-speed-val');
         var longestTripVal = document.getElementById('longest-trip-val');
+        var caloriesVal = document.getElementById('calories-val');
+        var badgeVal = document.getElementById('badge-val');
 
         if (bikeName) bikeName.innerText = (data.name || 'COWBOY BIKE').toUpperCase();
+        if (rankVal) rankVal.innerText = (data.relative_rank || 'TOP RIDER').toUpperCase();
         if (co2Val) co2Val.innerText = (data.co2_saved || 0).toFixed(1);
         if (odoVal) odoVal.innerText = Math.round(data.odo || 0);
         if (tripsVal) tripsVal.innerText = data.total_trips || '--';
         if (hoursVal) hoursVal.innerText = (data.total_hours || 0).toFixed(1);
         if (topSpeedVal) topSpeedVal.innerText = (data.top_speed || 0).toFixed(1) + ' km/h';
         if (longestTripVal) longestTripVal.innerText = (data.longest_trip || 0).toFixed(1) + ' km';
+        if (caloriesVal) caloriesVal.innerText = (data.most_calories || 0) + ' kcal';
+        if (badgeVal) badgeVal.innerText = data.latest_badge || '--';
       }
 
       function fetchStatsData() {
