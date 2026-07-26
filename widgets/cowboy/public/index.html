@@ -328,6 +328,9 @@
         } else if (data.alarm_batt) {
           badge.className += ' alarm-warning';
           badge.innerText = '🪫 LOW BATTERY';
+        } else if (data.meter_speed > 0) {
+          badge.className += ' alarm-active';
+          badge.innerText = '🚴 ON THE MOVE (' + data.meter_speed.toFixed(1) + ' km/h)';
         } else {
           var parkedTime = data.last_parked ? ' (' + data.last_parked + ')' : '';
           badge.innerText = '🟢 PARKED' + parkedTime;
@@ -361,8 +364,14 @@
         if (speedVal) speedVal.innerText = (data.meter_speed || 0).toFixed(1);
         if (odoVal) odoVal.innerText = Math.round(data.meter_odo || 0);
 
-        // Update Location & Status Footer
-        var addressText = (data.location && data.location.trim().length > 0) ? data.location : 'Unavailable';
+        // Update Location & Saved Place
+        var addressText = 'Unavailable';
+        if (data.place) {
+          addressText = data.place + (data.location ? ' (' + data.location + ')' : '');
+        } else if (data.location && data.location.trim().length > 0) {
+          addressText = data.location;
+        }
+
         if (locAddress) {
           locAddress.innerText = '📍 Location: ' + addressText;
         }

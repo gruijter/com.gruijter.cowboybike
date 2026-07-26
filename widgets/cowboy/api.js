@@ -23,6 +23,29 @@ module.exports = {
       return null;
     }
 
+    let place = null;
+    try {
+      if (device.cowboy && typeof device.cowboy.getPlaces === 'function') {
+        const places = await device.cowboy.getPlaces();
+        if (Array.isArray(places) && places.length > 0) {
+          const lat = device.getCapabilityValue('latitude');
+          const lon = device.getCapabilityValue('longitude');
+          if (lat && lon) {
+            const matchedPlace = places.find((p) => {
+              if (!p.latitude || !p.longitude) return false;
+              const dLat = (p.latitude - lat) * 111;
+              const dLon = (p.longitude - lon) * 111 * Math.cos((lat * Math.PI) / 180);
+              const distKm = Math.sqrt(dLat * dLat + dLon * dLon);
+              return distKm < 0.3; // Within 300 meters
+            });
+            if (matchedPlace) place = matchedPlace.name || matchedPlace.label;
+          }
+        }
+      }
+    } catch (e) {
+      // ignore if places api not available or error
+    }
+
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),
@@ -32,6 +55,7 @@ module.exports = {
       meter_speed: device.getCapabilityValue('meter_speed') ?? 0,
       meter_odo: device.getCapabilityValue('meter_odo') ?? 0,
       location: device.getCapabilityValue('location') ?? '',
+      place: place,
       meter_distance: device.getCapabilityValue('meter_distance') ?? 0,
       last_parked: device.getCapabilityValue('last_parked') ?? '',
       alarm_batt: device.getCapabilityValue('alarm_batt') ?? false,
