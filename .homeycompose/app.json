@@ -1,7 +1,7 @@
 {
   "id": "com.gruijter.cowboybike",
   "version": "3.0.0",
-  "compatibility": ">=10.0.0",
+  "compatibility": ">=12.3.0",
   "sdk": 3,
   "brandColor": "#272727",
   "platforms": [

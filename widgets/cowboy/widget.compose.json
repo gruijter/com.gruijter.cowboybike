@@ -1,0 +1,22 @@
+{
+  "name": {
+    "en": "Cowboy Bike"
+  },
+  "settings": [
+    {
+      "id": "device",
+      "type": "device",
+      "filter": "driver_id=cowboy",
+      "title": {
+        "en": "Select bike"
+      }
+    }
+  ],
+  "height": 440,
+  "api": {
+    "getBikeData": {
+      "method": "GET",
+      "path": "/"
+    }
+  }
+}
