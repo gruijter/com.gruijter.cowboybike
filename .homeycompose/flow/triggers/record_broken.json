@@ -1,7 +1,15 @@
 {
   "title": {
     "en": "A personal record was broken",
-    "nl": "Persoonlijk record verbroken"
+    "nl": "Persoonlijk record verbroken",
+    "de": "Persönlicher Rekord gebrochen",
+    "fr": "Record personnel battu",
+    "it": "Record personale battuto",
+    "sv": "Personligt rekord slaget",
+    "no": "Personlig rekord slått",
+    "es": "Rrecord personal batido",
+    "da": "Personlig rekord slået",
+    "pl": "Rekord osobisty pobity"
   },
   "highlight": true,
   "args": [
@@ -17,7 +25,15 @@
       "type": "string",
       "title": {
         "en": "Record name",
-        "nl": "Record naam"
+        "nl": "Record naam",
+        "de": "Rekordname",
+        "fr": "Nom du record",
+        "it": "Nome record",
+        "sv": "Rekordnamn",
+        "no": "Navn på rekord",
+        "es": "Nombre del récord",
+        "da": "Rekordnavn",
+        "pl": "Nazwa rekordu"
       },
       "example": "Hoogste snelheid"
     },
@@ -26,7 +42,15 @@
       "type": "string",
       "title": {
         "en": "Record value",
-        "nl": "Record waarde"
+        "nl": "Record waarde",
+        "de": "Rekordwert",
+        "fr": "Valeur du record",
+        "it": "Valore record",
+        "sv": "Rekordvärde",
+        "no": "Rekordverdi",
+        "es": "Valor del récord",
+        "da": "Rekordværdi",
+        "pl": "Wartość rekordu"
       },
       "example": "41 km/h"
     }

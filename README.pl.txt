@@ -1,0 +1,1 @@
+Twój rower elektryczny stał się inteligentnym urządzeniem połączonym z domem. Homey wie, kiedy i gdzie Twój rower był ostatnio zaparkowany, i posiada informacje o Twoich trasach. Wywołuje alarm, jeśli rower został przemieszczony bez pedałowania, gdy nie jest już online lub gdy bateria wymaga naładowania.

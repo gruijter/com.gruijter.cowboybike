@@ -1,7 +1,15 @@
 {
   "title": {
     "en": "A new badge or milestone was unlocked",
-    "nl": "Nieuwe badge of mijlpaal behaald"
+    "nl": "Nieuwe badge of mijlpaal behaald",
+    "de": "Neues Abzeichen oder Meilenstein freigeschaltet",
+    "fr": "Nouveau badge ou étape débloqué",
+    "it": "Nuovo distintivo o traguardo sbloccato",
+    "sv": "Nytt märke eller milstolpe upplåst",
+    "no": "Nytt merke eller milepæl låst opp",
+    "es": "Nuevo logro o hito desbloqueado",
+    "da": "Nyt mærke eller milesten oplåst",
+    "pl": "Nowa odznaka lub kamień milowy odblokowany"
   },
   "highlight": true,
   "args": [
@@ -17,7 +25,15 @@
       "type": "string",
       "title": {
         "en": "Badge name",
-        "nl": "Badge naam"
+        "nl": "Badge naam",
+        "de": "Abzeichenname",
+        "fr": "Nom du badge",
+        "it": "Nome distintivo",
+        "sv": "Märkesnamn",
+        "no": "Navn på merke",
+        "es": "Nombre del logro",
+        "da": "Mærkenavn",
+        "pl": "Nazwa odznaki"
       },
       "example": "1000 Club"
     },
@@ -26,7 +42,15 @@
       "type": "string",
       "title": {
         "en": "Description",
-        "nl": "Omschrijving"
+        "nl": "Omschrijving",
+        "de": "Beschreibung",
+        "fr": "Description",
+        "it": "Descrizione",
+        "sv": "Beskrivning",
+        "no": "Beskrivelse",
+        "es": "Descripción",
+        "da": "Beskrivelse",
+        "pl": "Opis"
       },
       "example": "Rij minstens 1,000 km en kom bij de club"
     }

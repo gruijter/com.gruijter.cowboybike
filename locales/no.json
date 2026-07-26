@@ -1,0 +1,19 @@
+{
+  "app": {
+    "name": "Cowboy Bike",
+    "description": "Hvor er Cowboy-sykkelen min?"
+  },
+  "settings": {
+    "model": "Modell",
+    "sku": "SKU",
+    "serial": "Serienummer",
+    "mac": "MAC-adresse",
+    "actDate": "Aktiveringsdato",
+    "firmware": "Fastvare",
+    "maxSpeed": "Maksimal hastighet",
+    "maxRange": "Maksimal rekkevidde",
+    "ledBrightness": "LED-lysstyrke",
+    "autoUnlock": "Automatisk opplåsing",
+    "smartLock": "Smart Lock"
+  }
+}

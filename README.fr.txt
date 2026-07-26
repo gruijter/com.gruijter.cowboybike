@@ -1,0 +1,1 @@
+Votre vélo électrique est devenu un appareil connecté à votre maison intelligente. Homey sait quand et où votre vélo a été garé pour la dernière fois et dispose d'informations sur vos trajets. Il déclenche une alarme si le vélo a été déplacé sans pédaler, s'il n'est plus en ligne ou si votre batterie doit être rechargée.

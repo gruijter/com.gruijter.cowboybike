@@ -1,0 +1,19 @@
+{
+  "app": {
+    "name": "Cowboy Bike",
+    "description": "Gast, waar is mijn Cowboy fiets?"
+  },
+  "settings": {
+    "model": "Model",
+    "sku": "SKU",
+    "serial": "Serienummer",
+    "mac": "MAC-adres",
+    "actDate": "Activeringsdatum",
+    "firmware": "Firmware",
+    "maxSpeed": "Maximale snelheid",
+    "maxRange": "Maximale actieradius",
+    "ledBrightness": "LED helderheid",
+    "autoUnlock": "Auto ontgrendelen",
+    "smartLock": "Smart lock"
+  }
+}

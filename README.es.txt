@@ -1,0 +1,1 @@
+Tu bicicleta eléctrica se ha convertido en un dispositivo inteligente conectado al hogar. Homey sabe cuándo y dónde estuvo aparcada tu bicicleta por última vez y tiene información sobre tus trayectos. Emite una alarma si la bicicleta se movió sin pedalear, cuando ya no está en línea o si es necesario cargar la batería.

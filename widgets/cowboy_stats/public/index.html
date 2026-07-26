@@ -257,6 +257,37 @@
     function onHomeyReady(Homey) {
       Homey.ready({ height: 440 });
 
+      var lang = (typeof Homey.getLanguage === 'function' ? Homey.getLanguage() : 'en').toLowerCase().substring(0, 2);
+      var translations = {
+        en: { co2: 'CO₂ SAVED', distance: 'TOTAL DISTANCE', rides: 'TOTAL RIDES', time: 'RIDING TIME', topSpeed: '⚡ Top Speed', longest: '🚩 Longest', calories: '🔥 Max Energy', badge: '🎖️ Latest Badge' },
+        nl: { co2: 'CO₂ BESPAARD', distance: 'TOTALE AFSTAND', rides: 'AANTAL RITTEN', time: 'RIJTIJD', topSpeed: '⚡ Topsnelheid', longest: '🚩 Langste Rit', calories: '🔥 Max Calorieën', badge: '🎖️ Laatste Badge' },
+        de: { co2: 'CO₂ EINGESPART', distance: 'GESAMTSTRECKE', rides: 'GESAMTFAHRTEN', time: 'FAHRZEIT', topSpeed: '⚡ Höchstgeschw.', longest: '🚩 Längste Fahrt', calories: '🔥 Max Kalorien', badge: '🎖️ Letztes Abzeichen' },
+        fr: { co2: 'CO₂ ÉCONOMISÉ', distance: 'DISTANCE TOTALE', rides: 'TRAJETS TOTAUX', time: 'TEMPS DE CONDUITE', topSpeed: '⚡ Vitesse Max', longest: '🚩 Plus Long Trajet', calories: '🔥 Énergie Max', badge: '🎖️ Dernier Badge' },
+        it: { co2: 'CO₂ RISPARMIATA', distance: 'DISTANZA TOTALE', rides: 'VIAGGI TOTALI', time: 'TEMPO DI GUIDA', topSpeed: '⚡ Velocità Max', longest: '🚩 Corsa Più Lunga', calories: '🔥 Calorie Max', badge: '🎖️ Ultimo Distintivo' },
+        es: { co2: 'CO₂ AHORRADO', distance: 'DISTANCIA TOTAL', rides: 'VIAJES TOTALES', time: 'TIEMPO CONDUCCIÓN', topSpeed: '⚡ Vel. Máxima', longest: '🚩 Viaje Más Largo', calories: '🔥 Calorías Máx', badge: '🎖️ Último Logro' },
+        sv: { co2: 'CO₂ INSPARAD', distance: 'TOTAL DISTANS', rides: 'TOTALT RESOR', time: 'KÖRTID', topSpeed: '⚡ Maxhastighet', longest: '🚩 Längsta Resa', calories: '🔥 Max Kalorier', badge: '🎖️ Senaste Märke' },
+        no: { co2: 'CO₂ SPART', distance: 'TOTAL AVSTAND', rides: 'TOTALT TURER', time: 'KJØRETID', topSpeed: '⚡ Toppfart', longest: '🚩 Lengste Tur', calories: '🔥 Maks Kalorier', badge: '🎖️ Siste Merke' },
+        da: { co2: 'CO₂ SPARET', distance: 'SAMLET AFSTAND', rides: 'TURE I ALT', time: 'KØRETID', topSpeed: '⚡ Tophastighed', longest: '🚩 Længste Tur', calories: '🔥 Maks Kalorier', badge: '🎖️ Seneste Mærke' },
+        pl: { co2: 'ZAOSZCZĘDZONE CO₂', distance: 'CAŁKOWITY DYSTANS', rides: 'ŁĄCZNIE JAZD', time: 'CZAS JAZDY', topSpeed: '⚡ Prędkość Max', longest: '🚩 Najdłuższa Trasa', calories: '🔥 Maks Kalorie', badge: '🎖️ Najnowsza Odznaka' }
+      };
+      var t = translations[lang] || translations.en;
+
+      // Apply static label translations
+      var cardHeaders = document.querySelectorAll('.metric-header span:last-child');
+      if (cardHeaders && cardHeaders.length >= 4) {
+        cardHeaders[0].innerText = t.co2;
+        cardHeaders[1].innerText = t.distance;
+        cardHeaders[2].innerText = t.rides;
+        cardHeaders[3].innerText = t.time;
+      }
+      var recordLabels = document.querySelectorAll('.record-label');
+      if (recordLabels && recordLabels.length >= 4) {
+        recordLabels[0].innerText = t.topSpeed;
+        recordLabels[1].innerText = t.longest;
+        recordLabels[2].innerText = t.calories;
+        recordLabels[3].innerText = t.badge;
+      }
+
       function getSelectedDeviceId() {
         var settings = Homey.getSettings();
         if (settings && settings.device) {

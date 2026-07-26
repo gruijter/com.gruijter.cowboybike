@@ -1,0 +1,1 @@
+La tua e-bike è diventata un dispositivo smart connesso alla casa. Homey sa quando e dove la tua bici è stata parcheggiata l'ultima volta e dispone di informazioni sui tuoi viaggi. Suona un allarme se la bici è stata spostata senza pedalare, se non è più online o se la batteria deve essere ricaricata.

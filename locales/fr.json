@@ -1,0 +1,19 @@
+{
+  "app": {
+    "name": "Cowboy Bike",
+    "description": "Où est mon vélo Cowboy ?"
+  },
+  "settings": {
+    "model": "Modèle",
+    "sku": "SKU",
+    "serial": "Numéro de série",
+    "mac": "Adresse MAC",
+    "actDate": "Date d'activation",
+    "firmware": "Firmware",
+    "maxSpeed": "Vitesse maximale",
+    "maxRange": "Autonomie maximale",
+    "ledBrightness": "Luminosité LED",
+    "autoUnlock": "Déverrouillage automatique",
+    "smartLock": "Smart Lock"
+  }
+}

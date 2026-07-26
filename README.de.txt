@@ -1,0 +1,1 @@
+Ihr E-Bike ist zu einem vernetzten Smart-Home-Gerät geworden. Homey weiß, wann und wo Ihr Fahrrad zuletzt geparkt wurde, und verfügt über Informationen zu Ihren Fahrradtouren. Es schlägt Alarm, wenn das Fahrrad ohne Radfahren bewegt wurde, wenn es nicht mehr online ist oder wenn Ihr Akku geladen werden muss.

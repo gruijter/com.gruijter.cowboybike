@@ -114,7 +114,7 @@ module.exports = {
 
     // 6. Badges & Relative Ranking
     let latestBadgeName = '1000 Club';
-    let relativeRank = 'Top 10% Deze Week';
+    let relativeRank = 'Top 10% Rider';
 
     if (!device._statsCache.badges && device.cowboy && typeof device.cowboy.getBadges === 'function') {
       const badgesRes = await device.cowboy.getBadges().catch(() => null);
@@ -134,9 +134,10 @@ module.exports = {
           });
         }
       });
-      const achieved = allBadges.filter(b => b.achieved_on).sort((a, b) => new Date(b.achieved_on) - new Date(a.achieved_on));
-      if (achieved.length > 0) {
-        latestBadgeName = achieved[0].name;
+      // Separate achievement/trophy badges from milestone ranks
+      const achievedTrophies = allBadges.filter(b => b.type === 'achievement' && b.achieved_on).sort((a, b) => new Date(b.achieved_on) - new Date(a.achieved_on));
+      if (achievedTrophies.length > 0) {
+        latestBadgeName = achievedTrophies[0].name;
       }
     }
 

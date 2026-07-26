@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.gruijter.cowboybike",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "compatibility": ">=12.3.0",
   "sdk": 3,
   "brandColor": "#272727",
@@ -202,7 +202,15 @@
       {
         "title": {
           "en": "A new badge or milestone was unlocked",
-          "nl": "Nieuwe badge of mijlpaal behaald"
+          "nl": "Nieuwe badge of mijlpaal behaald",
+          "de": "Neues Abzeichen oder Meilenstein freigeschaltet",
+          "fr": "Nouveau badge ou étape débloqué",
+          "it": "Nuovo distintivo o traguardo sbloccato",
+          "sv": "Nytt märke eller milstolpe upplåst",
+          "no": "Nytt merke eller milepæl låst opp",
+          "es": "Nuevo logro o hito desbloqueado",
+          "da": "Nyt mærke eller milesten oplåst",
+          "pl": "Nowa odznaka lub kamień milowy odblokowany"
         },
         "highlight": true,
         "args": [
@@ -218,7 +226,15 @@
             "type": "string",
             "title": {
               "en": "Badge name",
-              "nl": "Badge naam"
+              "nl": "Badge naam",
+              "de": "Abzeichenname",
+              "fr": "Nom du badge",
+              "it": "Nome distintivo",
+              "sv": "Märkesnamn",
+              "no": "Navn på merke",
+              "es": "Nombre del logro",
+              "da": "Mærkenavn",
+              "pl": "Nazwa odznaki"
             },
             "example": "1000 Club"
           },
@@ -227,7 +243,15 @@
             "type": "string",
             "title": {
               "en": "Description",
-              "nl": "Omschrijving"
+              "nl": "Omschrijving",
+              "de": "Beschreibung",
+              "fr": "Description",
+              "it": "Descrizione",
+              "sv": "Beskrivning",
+              "no": "Beskrivelse",
+              "es": "Descripción",
+              "da": "Beskrivelse",
+              "pl": "Opis"
             },
             "example": "Rij minstens 1,000 km en kom bij de club"
           }
@@ -429,7 +453,15 @@
       {
         "title": {
           "en": "A personal record was broken",
-          "nl": "Persoonlijk record verbroken"
+          "nl": "Persoonlijk record verbroken",
+          "de": "Persönlicher Rekord gebrochen",
+          "fr": "Record personnel battu",
+          "it": "Record personale battuto",
+          "sv": "Personligt rekord slaget",
+          "no": "Personlig rekord slått",
+          "es": "Rrecord personal batido",
+          "da": "Personlig rekord slået",
+          "pl": "Rekord osobisty pobity"
         },
         "highlight": true,
         "args": [
@@ -445,7 +477,15 @@
             "type": "string",
             "title": {
               "en": "Record name",
-              "nl": "Record naam"
+              "nl": "Record naam",
+              "de": "Rekordname",
+              "fr": "Nom du record",
+              "it": "Nome record",
+              "sv": "Rekordnamn",
+              "no": "Navn på rekord",
+              "es": "Nombre del récord",
+              "da": "Rekordnavn",
+              "pl": "Nazwa rekordu"
             },
             "example": "Hoogste snelheid"
           },
@@ -454,7 +494,15 @@
             "type": "string",
             "title": {
               "en": "Record value",
-              "nl": "Record waarde"
+              "nl": "Record waarde",
+              "de": "Rekordwert",
+              "fr": "Valeur du record",
+              "it": "Valore record",
+              "sv": "Rekordvärde",
+              "no": "Rekordverdi",
+              "es": "Valor del récord",
+              "da": "Rekordværdi",
+              "pl": "Wartość rekordu"
             },
             "example": "41 km/h"
           }
@@ -466,11 +514,27 @@
       {
         "title": {
           "en": "Get stringified JSON info",
-          "nl": "Haal stringified JSON info op"
+          "nl": "Haal stringified JSON info op",
+          "de": "JSON-Informationen als String abrufen",
+          "fr": "Obtenir les infos JSON",
+          "it": "Ottieni informazioni JSON",
+          "sv": "Hämta JSON-information",
+          "no": "Hent JSON-informasjon",
+          "es": "Obtener información JSON",
+          "da": "Hent JSON-information",
+          "pl": "Pobierz informacje JSON"
         },
         "titleFormatted": {
           "en": "Get JSON info [[data_type]]",
-          "nl": "Haal JSON info [[data_type]] op"
+          "nl": "Haal JSON info [[data_type]] op",
+          "de": "JSON-Info [[data_type]] abrufen",
+          "fr": "Obtenir les infos JSON [[data_type]]",
+          "it": "Ottieni info JSON [[data_type]]",
+          "sv": "Hämta JSON-info [[data_type]]",
+          "no": "Hent JSON-info [[data_type]]",
+          "es": "Obtener info JSON [[data_type]]",
+          "da": "Hent JSON-info [[data_type]]",
+          "pl": "Pobierz info JSON [[data_type]]"
         },
         "args": [
           {
@@ -486,28 +550,60 @@
                 "id": "bike_status",
                 "label": {
                   "en": "Bike status & telemetry",
-                  "nl": "Fietsstatus & telemetrie"
+                  "nl": "Fietsstatus & telemetrie",
+                  "de": "Fahrradstatus & Telemetrie",
+                  "fr": "Statut du vélo et télémétrie",
+                  "it": "Stato bici e telemetria",
+                  "sv": "Cykelstatus & telemetri",
+                  "no": "Sykkelstatus og telemetri",
+                  "es": "Estado de la bicicleta y telemetría",
+                  "da": "Cykelstatus og telemetri",
+                  "pl": "Stan roweru i telemetria"
                 }
               },
               {
                 "id": "personal_records",
                 "label": {
                   "en": "Personal records",
-                  "nl": "Persoonlijke records"
+                  "nl": "Persoonlijke records",
+                  "de": "Persönliche Rekorde",
+                  "fr": "Records personnels",
+                  "it": "Record personali",
+                  "sv": "Personliga rekord",
+                  "no": "Personlige rekorder",
+                  "es": "Récords personales",
+                  "da": "Personlige rekorder",
+                  "pl": "Rekordy osobiste"
                 }
               },
               {
                 "id": "badges_summary",
                 "label": {
                   "en": "Badges & milestones",
-                  "nl": "Badges & mijlpalen"
+                  "nl": "Badges & mijlpalen",
+                  "de": "Abzeichen & Meilensteine",
+                  "fr": "Badges et jalons",
+                  "it": "Distintivi e traguardi",
+                  "sv": "Märken & milstolpar",
+                  "no": "Merker og milepæler",
+                  "es": "Logros y hitos",
+                  "da": "Mærker og milestene",
+                  "pl": "Odznaki i kamienie milowe"
                 }
               },
               {
                 "id": "user_profile",
                 "label": {
                   "en": "User profile & settings",
-                  "nl": "Gebruikersprofiel & instellingen"
+                  "nl": "Gebruikersprofiel & instellingen",
+                  "de": "Benutzerprofil & Einstellungen",
+                  "fr": "Profil utilisateur et paramètres",
+                  "it": "Profilo utente e impostazioni",
+                  "sv": "Användarprofil & inställningar",
+                  "no": "Brukerprofil og innstillinger",
+                  "es": "Perfil de usuario y ajustes",
+                  "da": "Brugerprofil og indstillinger",
+                  "pl": "Profil użytkownika i ustawienia"
                 }
               }
             ]
@@ -519,7 +615,15 @@
             "type": "string",
             "title": {
               "en": "JSON Data",
-              "nl": "JSON Data"
+              "nl": "JSON Data",
+              "de": "JSON-Daten",
+              "fr": "Données JSON",
+              "it": "Dati JSON",
+              "sv": "JSON-data",
+              "no": "JSON-data",
+              "es": "Datos JSON",
+              "da": "JSON-data",
+              "pl": "Dane JSON"
             },
             "example": "{\"nickname\":\"RobinsBike\",\"battery\":60}"
           }

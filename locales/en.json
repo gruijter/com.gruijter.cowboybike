@@ -1,1 +1,19 @@
-{}
+{
+  "app": {
+    "name": "Cowboy Bike",
+    "description": "Dude, where is my Cowboy Bike?"
+  },
+  "settings": {
+    "model": "Model",
+    "sku": "SKU",
+    "serial": "Serial number",
+    "mac": "MAC address",
+    "actDate": "Activation date",
+    "firmware": "Firmware",
+    "maxSpeed": "Maximum speed",
+    "maxRange": "Maximum range",
+    "ledBrightness": "LED brightness",
+    "autoUnlock": "Auto unlock",
+    "smartLock": "Smart lock"
+  }
+}

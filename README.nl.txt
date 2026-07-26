@@ -1,0 +1,1 @@
+Je e-bike is een slim apparaat geworden voor je smart home. Homey weet wanneer en waar je fiets voor het laatst geparkeerd stond en houdt je ritten bij. Homey slaat alarm als de fiets wordt verplaatst zonder te fietsen, als de fiets niet meer online is of als je accu moet worden opgeladen.

@@ -1,0 +1,1 @@
+Din elcykel er blevet en smart enhed forbundet til dit hjem. Homey ved, hvornår og hvor din cykel sidst blev parkeret, og har oplysninger om dine cykelture. Den slår alarm, hvis cyklen blev flyttet uden at cykle, når den ikke længere er online, eller hvis dit batteri skal oplades.

@@ -1,11 +1,27 @@
 {
   "title": {
     "en": "Get stringified JSON info",
-    "nl": "Haal stringified JSON info op"
+    "nl": "Haal stringified JSON info op",
+    "de": "JSON-Informationen als String abrufen",
+    "fr": "Obtenir les infos JSON",
+    "it": "Ottieni informazioni JSON",
+    "sv": "Hämta JSON-information",
+    "no": "Hent JSON-informasjon",
+    "es": "Obtener información JSON",
+    "da": "Hent JSON-information",
+    "pl": "Pobierz informacje JSON"
   },
   "titleFormatted": {
     "en": "Get JSON info [[data_type]]",
-    "nl": "Haal JSON info [[data_type]] op"
+    "nl": "Haal JSON info [[data_type]] op",
+    "de": "JSON-Info [[data_type]] abrufen",
+    "fr": "Obtenir les infos JSON [[data_type]]",
+    "it": "Ottieni info JSON [[data_type]]",
+    "sv": "Hämta JSON-info [[data_type]]",
+    "no": "Hent JSON-info [[data_type]]",
+    "es": "Obtener info JSON [[data_type]]",
+    "da": "Hent JSON-info [[data_type]]",
+    "pl": "Pobierz info JSON [[data_type]]"
   },
   "args": [
     {
@@ -17,10 +33,66 @@
       "type": "dropdown",
       "name": "data_type",
       "values": [
-        { "id": "bike_status", "label": { "en": "Bike status & telemetry", "nl": "Fietsstatus & telemetrie" } },
-        { "id": "personal_records", "label": { "en": "Personal records", "nl": "Persoonlijke records" } },
-        { "id": "badges_summary", "label": { "en": "Badges & milestones", "nl": "Badges & mijlpalen" } },
-        { "id": "user_profile", "label": { "en": "User profile & settings", "nl": "Gebruikersprofiel & instellingen" } }
+        {
+          "id": "bike_status",
+          "label": {
+            "en": "Bike status & telemetry",
+            "nl": "Fietsstatus & telemetrie",
+            "de": "Fahrradstatus & Telemetrie",
+            "fr": "Statut du vélo et télémétrie",
+            "it": "Stato bici e telemetria",
+            "sv": "Cykelstatus & telemetri",
+            "no": "Sykkelstatus og telemetri",
+            "es": "Estado de la bicicleta y telemetría",
+            "da": "Cykelstatus og telemetri",
+            "pl": "Stan roweru i telemetria"
+          }
+        },
+        {
+          "id": "personal_records",
+          "label": {
+            "en": "Personal records",
+            "nl": "Persoonlijke records",
+            "de": "Persönliche Rekorde",
+            "fr": "Records personnels",
+            "it": "Record personali",
+            "sv": "Personliga rekord",
+            "no": "Personlige rekorder",
+            "es": "Récords personales",
+            "da": "Personlige rekorder",
+            "pl": "Rekordy osobiste"
+          }
+        },
+        {
+          "id": "badges_summary",
+          "label": {
+            "en": "Badges & milestones",
+            "nl": "Badges & mijlpalen",
+            "de": "Abzeichen & Meilensteine",
+            "fr": "Badges et jalons",
+            "it": "Distintivi e traguardi",
+            "sv": "Märken & milstolpar",
+            "no": "Merker og milepæler",
+            "es": "Logros y hitos",
+            "da": "Mærker og milestene",
+            "pl": "Odznaki i kamienie milowe"
+          }
+        },
+        {
+          "id": "user_profile",
+          "label": {
+            "en": "User profile & settings",
+            "nl": "Gebruikersprofiel & instellingen",
+            "de": "Benutzerprofil & Einstellungen",
+            "fr": "Profil utilisateur et paramètres",
+            "it": "Profilo utente e impostazioni",
+            "sv": "Användarprofil & inställningar",
+            "no": "Brukerprofil og innstillinger",
+            "es": "Perfil de usuario y ajustes",
+            "da": "Brugerprofil og indstillinger",
+            "pl": "Profil użytkownika i ustawienia"
+          }
+        }
       ]
     }
   ],
@@ -30,7 +102,15 @@
       "type": "string",
       "title": {
         "en": "JSON Data",
-        "nl": "JSON Data"
+        "nl": "JSON Data",
+        "de": "JSON-Daten",
+        "fr": "Données JSON",
+        "it": "Dati JSON",
+        "sv": "JSON-data",
+        "no": "JSON-data",
+        "es": "Datos JSON",
+        "da": "JSON-data",
+        "pl": "Dane JSON"
       },
       "example": "{\"nickname\":\"RobinsBike\",\"battery\":60}"
     }
