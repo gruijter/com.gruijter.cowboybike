@@ -685,6 +685,29 @@
         }
       },
       "id": "cowboy"
+    },
+    "cowboy_stats": {
+      "name": {
+        "en": "Cowboy Stats"
+      },
+      "settings": [
+        {
+          "id": "device",
+          "type": "device",
+          "filter": "driver_id=cowboy",
+          "title": {
+            "en": "Select bike"
+          }
+        }
+      ],
+      "height": 440,
+      "api": {
+        "getStatsData": {
+          "method": "GET",
+          "path": "/"
+        }
+      },
+      "id": "cowboy_stats"
     }
   },
   "capabilities": {

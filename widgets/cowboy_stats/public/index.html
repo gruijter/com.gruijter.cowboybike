@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Cowboy Bike Performance Stats</title>
+  <style>
+    :root {
+      --bg-color: var(--homey-color-background, #16171a);
+      --card-bg: var(--homey-color-card-background, #22242a);
+      --text-main: var(--homey-color-text, #ffffff);
+      --text-muted: var(--homey-color-text-light, #90939a);
+      --text-subtle: #6c6f78;
+      --accent-green: #34c759;
+      --accent-blue: #0a84ff;
+      --accent-orange: #ff9500;
+      --border-radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .widget-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bike-name {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .badge-stats {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background-color: rgba(10, 132, 255, 0.15);
+      color: var(--accent-blue);
+      text-transform: uppercase;
+    }
+
+    /* Top Grid 2x2 */
+    .highlight-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .metric-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .metric-value-container {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      margin-top: 2px;
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .metric-unit {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    /* Bike Showcase */
+    .showcase {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 4px 0;
+      flex-grow: 1;
+    }
+
+    .bike-img {
+      width: 88%;
+      max-height: 125px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+    }
+
+    /* Personal Records Footer */
+    .records-section {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 10px 12px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .record-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .record-divider {
+      width: 1px;
+      height: 28px;
+      background-color: rgba(142, 142, 147, 0.2);
+    }
+
+    .record-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .record-value {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="widget-container" id="widget-main">
+    <!-- Header -->
+    <div class="header">
+      <div class="bike-name" id="bike-name">COWBOY BIKE</div>
+      <div class="badge-stats">🏆 PERFORMANCE STATS</div>
+    </div>
+
+    <!-- 2x2 Highlight Metric Cards -->
+    <div class="highlight-grid">
+      <div class="metric-card">
+        <div class="metric-header"><span>🌱</span><span>CO₂ SAVED</span></div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="co2-val">--</span>
+          <span class="metric-unit">kg</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header"><span>📏</span><span>TOTAL DISTANCE</span></div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="odo-val">--</span>
+          <span class="metric-unit">km</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header"><span>🚴</span><span>TOTAL RIDES</span></div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="trips-val">--</span>
+          <span class="metric-unit">trips</span>
+        </div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-header"><span>⏱️</span><span>RIDING TIME</span></div>
+        <div class="metric-value-container">
+          <span class="metric-value" id="hours-val">--</span>
+          <span class="metric-unit">hrs</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Bike Image Showcase -->
+    <div class="showcase">
+      <img src="bike.png" alt="Cowboy Bike" class="bike-img" />
+    </div>
+
+    <!-- Footer Personal Records -->
+    <div class="records-section">
+      <div class="record-item">
+        <div class="record-label">⚡ Top Speed Record</div>
+        <div class="record-value" id="top-speed-val">-- km/h</div>
+      </div>
+      <div class="record-divider"></div>
+      <div class="record-item">
+        <div class="record-label">🚩 Longest Ride Record</div>
+        <div class="record-value" id="longest-trip-val">-- km</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function onHomeyReady(Homey) {
+      Homey.ready({ height: 440 });
+
+      function getSelectedDeviceId() {
+        var settings = Homey.getSettings();
+        if (settings && settings.device) {
+          return typeof settings.device === 'object' ? settings.device.id : settings.device;
+        }
+        if (typeof Homey.getDeviceIds === 'function') {
+          var ids = Homey.getDeviceIds();
+          if (ids && ids.length > 0) return ids[0];
+        }
+        return null;
+      }
+
+      function updateUI(data) {
+        if (!data) return;
+
+        var bikeName = document.getElementById('bike-name');
+        var co2Val = document.getElementById('co2-val');
+        var odoVal = document.getElementById('odo-val');
+        var tripsVal = document.getElementById('trips-val');
+        var hoursVal = document.getElementById('hours-val');
+        var topSpeedVal = document.getElementById('top-speed-val');
+        var longestTripVal = document.getElementById('longest-trip-val');
+
+        if (bikeName) bikeName.innerText = (data.name || 'COWBOY BIKE').toUpperCase();
+        if (co2Val) co2Val.innerText = (data.co2_saved || 0).toFixed(1);
+        if (odoVal) odoVal.innerText = Math.round(data.odo || 0);
+        if (tripsVal) tripsVal.innerText = data.total_trips || '--';
+        if (hoursVal) hoursVal.innerText = (data.total_hours || 0).toFixed(1);
+        if (topSpeedVal) topSpeedVal.innerText = (data.top_speed || 0).toFixed(1) + ' km/h';
+        if (longestTripVal) longestTripVal.innerText = (data.longest_trip || 0).toFixed(1) + ' km';
+      }
+
+      function fetchStatsData() {
+        var deviceId = getSelectedDeviceId();
+        var path = '/' + (deviceId ? '?deviceId=' + encodeURIComponent(deviceId) : '');
+
+        Homey.api('GET', path, {})
+          .then(function(result) {
+            updateUI(result);
+          })
+          .catch(function(err) {
+            console.error('Failed to fetch stats data:', err);
+          });
+      }
+
+      fetchStatsData();
+      setInterval(fetchStatsData, 30000);
+    }
+  </script>
+</body>
+</html>

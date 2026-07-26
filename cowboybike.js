@@ -170,6 +170,24 @@ class Cowboy {
     }
   }
 
+  async getTripMetrics() {
+    try {
+      const res = await this._makeRequest('/trips/metrics/stats');
+      return Promise.resolve(res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async getPersonalRecords() {
+    try {
+      const res = await this._makeRequest('/users/me/personal_records');
+      return Promise.resolve(res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
   async _makeRequest(actionPath, data, timeout, isRetry) {
     try {
       // check if logged in and not expired
