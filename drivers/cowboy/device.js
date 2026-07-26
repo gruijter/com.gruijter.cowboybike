@@ -23,8 +23,8 @@ along with com.gruijter.cowboybike.  If not, see <http://www.gnu.org/licenses/>.
 const { Device } = require('homey');
 const GeoPoint = require('geopoint');
 const util = require('util');
-const https = require('https');
-const Cowboy = require('../../cowboybike');
+const Cowboy = require('../../lib/cowboybike');
+const Nominatim = require('../../lib/nominatim');
 
 const setTimeoutPromise = util.promisify(setTimeout);
 
@@ -48,6 +48,7 @@ class MyDevice extends Device {
         password: settings.password,
       };
       this.cowboy = new Cowboy(options);
+      this.nominatim = new Nominatim();
       await this.cowboy.getMe();
       this.log(JSON.stringify(this.cowboy.data));
       await this.handleData();
@@ -198,8 +199,8 @@ class MyDevice extends Device {
       this.setCapability('longitude', bike.position.longitude);
 
       let locationAddress = bike.position.address;
-      if (!locationAddress && bike.position.latitude && bike.position.longitude) {
-        locationAddress = await this.reverseGeocode(bike.position.latitude, bike.position.longitude).catch(() => null);
+      if (!locationAddress && bike.position.latitude && bike.position.longitude && this.nominatim) {
+        locationAddress = await this.nominatim.reverseGeocode(bike.position.latitude, bike.position.longitude).catch(() => null);
       }
       if (!locationAddress && bike.position.latitude && bike.position.longitude) {
         locationAddress = `${bike.position.latitude.toFixed(4)}, ${bike.position.longitude.toFixed(4)}`;
@@ -360,54 +361,7 @@ class MyDevice extends Device {
     }
   }
 
-  async reverseGeocode(lat, lon) {
-    if (!lat || !lon) return null;
-    const roundedLat = lat.toFixed(4);
-    const roundedLon = lon.toFixed(4);
-    if (this._geoCache && this._geoCache.lat === roundedLat && this._geoCache.lon === roundedLon) {
-      return this._geoCache.address;
-    }
-    return new Promise((resolve) => {
-      const options = {
-        hostname: 'nominatim.openstreetmap.org',
-        path: `/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=18`,
-        headers: {
-          'User-Agent': 'Homey-Cowboy-App/1.0 (com.gruijter.cowboybike)'
-        },
-        timeout: 4000,
-      };
-      const req = https.get(options, (res) => {
-        let body = '';
-        res.on('data', (chunk) => { body += chunk; });
-        res.on('end', () => {
-          try {
-            const data = JSON.parse(body);
-            if (data && data.address) {
-              const road = data.address.road || data.address.pedestrian || data.address.suburb || '';
-              const number = data.address.house_number ? ` ${data.address.house_number}` : '';
-              const town = data.address.town || data.address.city || data.address.village || data.address.municipality || '';
-              const formatted = [road + number, town].filter(Boolean).join(', ');
-              if (formatted) {
-                this._geoCache = { lat: roundedLat, lon: roundedLon, address: formatted };
-                return resolve(formatted);
-              }
-            }
-            if (data && data.display_name) {
-              const parts = data.display_name.split(', ');
-              const formatted = parts.slice(0, 2).join(', ');
-              this._geoCache = { lat: roundedLat, lon: roundedLon, address: formatted };
-              return resolve(formatted);
-            }
-            resolve(null);
-          } catch (e) {
-            resolve(null);
-          }
-        });
-      });
-      req.on('error', () => resolve(null));
-      req.on('timeout', () => { req.destroy(); resolve(null); });
-    });
-  }
+
 
   distance(pos1, pos2) {
     const lat1 = pos1.latitude;
