@@ -118,6 +118,12 @@ class Cowboy {
     try {
       const res = await this._makeRequest(meEP);
       this.data = res;
+      if (res && res.bike) {
+        this.bikeId = res.bike.id;
+        this.nickname = res.bike.nickname;
+        this.serial = res.bike.serial_number;
+        this.model = res.bike.model && res.bike.model.name;
+      }
       return Promise.resolve(res);
     } catch (error) {
       return Promise.reject(error);
@@ -145,7 +151,16 @@ class Cowboy {
 
   async getRecentTrips() {
     try {
-      const res = await this._makeRequest(tripsRecentEP);
+      if (!this.bikeId && this.data && this.data.bike) {
+        this.bikeId = this.data.bike.id;
+      }
+      let res = await this._makeRequest(tripsRecentEP).catch(() => null);
+      if (!res && this.bikeId) {
+        res = await this._makeRequest(`${bikesEP}/${this.bikeId}/trips`).catch(() => null);
+      }
+      if (!res) {
+        res = await this._makeRequest('/trips').catch(() => null);
+      }
       return Promise.resolve(res);
     } catch (error) {
       return Promise.reject(error);

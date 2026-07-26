@@ -94,6 +94,11 @@
       max-width: 100%;
     }
 
+    .status-badge.alarm-active {
+      background-color: rgba(10, 132, 255, 0.2);
+      color: var(--accent-blue);
+    }
+
     .status-badge.alarm-danger {
       background-color: rgba(255, 59, 48, 0.2);
       color: var(--accent-red);
@@ -276,7 +281,7 @@
       </div>
       <div class="stat-card">
         <div class="stat-value" id="speed-val">--</div>
-        <div class="stat-label">km/h</div>
+        <div class="stat-label">avg km/h</div>
       </div>
       <div class="stat-card">
         <div class="stat-value" id="odo-val">--</div>
@@ -328,9 +333,9 @@
         } else if (data.alarm_batt) {
           badge.className += ' alarm-warning';
           badge.innerText = '🪫 LOW BATTERY';
-        } else if (data.meter_speed > 0) {
+        } else if (data.current_speed > 0) {
           badge.className += ' alarm-active';
-          badge.innerText = '🚴 ON THE MOVE (' + data.meter_speed.toFixed(1) + ' km/h)';
+          badge.innerText = '🚴 ON THE MOVE (' + data.current_speed.toFixed(1) + ' km/h)';
         } else {
           var parkedTime = data.last_parked ? ' (' + data.last_parked + ')' : '';
           badge.innerText = '🟢 PARKED' + parkedTime;

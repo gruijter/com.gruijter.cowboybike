@@ -46,13 +46,20 @@ module.exports = {
       // ignore if places api not available or error
     }
 
+    let meterSpeed = device.getCapabilityValue('meter_speed') ?? 0;
+    if (meterSpeed === 0 && device._lastTripSpeed) {
+      meterSpeed = device._lastTripSpeed;
+    }
+    homey.log(`[WIDGET API DIAGNOSTIC] device=${device.getName()}, meter_speed=${meterSpeed}, _lastTripSpeed=${device._lastTripSpeed}`);
+
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),
       measure_battery: device.getCapabilityValue('measure_battery') ?? 0,
       meter_range: device.getCapabilityValue('meter_range') ?? 0,
       meter_trip: device.getCapabilityValue('meter_trip') ?? 0,
-      meter_speed: device.getCapabilityValue('meter_speed') ?? 0,
+      meter_speed: meterSpeed,
+      current_speed: device.currentSpeed ?? 0,
       meter_odo: device.getCapabilityValue('meter_odo') ?? 0,
       location: device.getCapabilityValue('location') ?? '',
       place: place,

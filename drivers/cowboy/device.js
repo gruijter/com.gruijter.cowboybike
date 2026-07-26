@@ -36,6 +36,11 @@ class MyDevice extends Device {
       this.setCapability('alarm_relocated', false);
       this.restarting = false;
       this.lastBikeData = this.getStoreValue('lastBikeData');
+      const storedLastTripSpeed = this.getStoreValue('lastTripSpeed');
+      if (storedLastTripSpeed && storedLastTripSpeed > 0) {
+        this.setCapability('meter_speed', storedLastTripSpeed);
+        this._lastTripSpeed = storedLastTripSpeed;
+      }
       const settings = this.getSettings();
       const options = {
         email: settings.email,
@@ -233,12 +238,17 @@ class MyDevice extends Device {
           relocatedAlarm = (movedBeeline - deltaD) > this.getSettings().relocationAlarmDistance;
           this.busy = false;
         }
-        if (deltaT > 0) {
+        if (deltaT > 0 && deltaD > 0.05) {
           const speed = 3600 * (deltaD / deltaT);
-          this.setCapability('meter_speed', speed);
-          // console.log(bike, deltaT, deltaD, speed);
+          if (speed >= 3) {
+            this.setCapability('meter_speed', speed);
+            this.setCapabilityValue('meter_speed', speed).catch(this.error);
+            this.setStoreValue('lastTripSpeed', speed).catch(this.error);
+            this._lastTripSpeed = speed;
+          }
+          this.currentSpeed = speed;
         } else {
-          this.setCapability('meter_speed', 0);
+          this.currentSpeed = 0;
         }
         if (deltaD > 0) {
           this.setCapability('last_parked', `${date} ${time}`);
@@ -252,9 +262,89 @@ class MyDevice extends Device {
       // store bike data and update app settings
       this.lastBikeData = bike;
       this.setStoreValue('lastBikeData', bike).catch(this.error);
+      await this.updateLastTripSpeed();
       await this.checkSettings();
     } catch (error) {
       this.error(error);
+    }
+  }
+
+  async updateLastTripSpeed() {
+    try {
+      const { bike } = (this.cowboy && this.cowboy.data) || {};
+      let speedCap = this.getCapabilityValue('meter_speed');
+      let storedSpeed = this.getStoreValue('lastTripSpeed');
+      this.log(`[TRIP SPEED DIAGNOSTIC] initial capability=${speedCap}, storedSpeed=${storedSpeed}`);
+
+      // Filter out tiny noise values (< 3 km/h like 0.0233)
+      if (typeof speedCap === 'number' && speedCap < 3) speedCap = 0;
+      if (typeof storedSpeed === 'number' && storedSpeed < 3) storedSpeed = 0;
+
+      if (speedCap === 0 && storedSpeed > 0) {
+        this.log(`[TRIP SPEED DIAGNOSTIC] Restoring storedSpeed ${storedSpeed} to capability`);
+        speedCap = storedSpeed;
+        this.setCapability('meter_speed', storedSpeed);
+        this.setCapabilityValue('meter_speed', storedSpeed).catch(this.error);
+        this._lastTripSpeed = storedSpeed;
+      }
+
+      if (!speedCap || speedCap === 0) {
+        this.log(`[TRIP SPEED DIAGNOSTIC] Speed is 0 or noise, checking Cowboy API recent trips...`);
+        if (this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
+          const res = await this.cowboy.getRecentTrips().catch((err) => {
+            this.error('getRecentTrips failed:', err);
+            return null;
+          });
+
+          this.log(`[TRIP SPEED DIAGNOSTIC] getRecentTrips raw response: ${JSON.stringify(res)}`);
+
+          let trips = null;
+          if (Array.isArray(res)) trips = res;
+          else if (res && Array.isArray(res.trips)) trips = res.trips;
+          else if (res && Array.isArray(res.data)) trips = res.data;
+
+          if (trips && trips.length > 0) {
+            const lastTrip = trips[0];
+            let calculatedSpeed = 0;
+            if (typeof lastTrip.avg_speed === 'number' && lastTrip.avg_speed > 0) {
+              calculatedSpeed = lastTrip.avg_speed;
+            } else if (typeof lastTrip.speed === 'number' && lastTrip.speed > 0) {
+              calculatedSpeed = lastTrip.speed;
+            } else if (lastTrip.distance && lastTrip.duration && lastTrip.duration > 0) {
+              calculatedSpeed = (lastTrip.distance / lastTrip.duration) * 3.6;
+            }
+
+            if (calculatedSpeed >= 3) {
+              this.log(`[TRIP SPEED DIAGNOSTIC] Found trip average speed: ${calculatedSpeed.toFixed(1)} km/h`);
+              this._lastTripSpeed = calculatedSpeed;
+              this.setCapability('meter_speed', calculatedSpeed);
+              this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
+              this.setStoreValue('lastTripSpeed', calculatedSpeed).catch(this.error);
+              return;
+            }
+          }
+        }
+
+        // Fallback: If API trip history is unavailable or unpopulated, calculate overall average speed from total_distance & total_duration
+        if (bike && bike.total_distance > 0 && bike.total_duration > 0) {
+          const overallAvgSpeed = Math.round((bike.total_distance / (bike.total_duration / 3600)) * 10) / 10;
+          if (overallAvgSpeed > 0) {
+            this.log(`[TRIP SPEED DIAGNOSTIC] Setting fallback to overall avg: ${overallAvgSpeed} km/h`);
+            this._lastTripSpeed = overallAvgSpeed;
+            this.setCapability('meter_speed', overallAvgSpeed);
+            this.setCapabilityValue('meter_speed', overallAvgSpeed).catch(this.error);
+            this.setStoreValue('lastTripSpeed', overallAvgSpeed).catch(this.error);
+          }
+        }
+      } else {
+        this.log(`[TRIP SPEED DIAGNOSTIC] Using existing speed ${speedCap} km/h`);
+        this._lastTripSpeed = speedCap;
+        this.setCapability('meter_speed', speedCap);
+        this.setCapabilityValue('meter_speed', speedCap).catch(this.error);
+        this.setStoreValue('lastTripSpeed', speedCap).catch(this.error);
+      }
+    } catch (e) {
+      this.error('[TRIP SPEED DIAGNOSTIC] error:', e);
     }
   }
 
