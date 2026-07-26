@@ -162,7 +162,7 @@
     }
 
     .range-unit {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--text-muted);
       margin-left: 4px;
@@ -232,16 +232,6 @@
       display: flex;
       justify-content: space-between;
     }
-
-    /* Empty / Loading State */
-    .loading-state {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      color: var(--text-muted);
-      font-size: 14px;
-    }
   </style>
 </head>
 <body>
@@ -263,14 +253,14 @@
 
     <!-- Showcase Bike Image -->
     <div class="showcase">
-      <img src="/drivers/cowboy/assets/images/large.png" alt="Cowboy Bike" class="bike-img" />
+      <img src="bike.png" alt="Cowboy Bike" class="bike-img" />
     </div>
 
     <!-- Estimated Range -->
     <div class="range-section">
       <div>
         <span class="range-value" id="range-val">--</span>
-        <span class="range-unit">km range</span>
+        <span class="range-unit">km</span>
       </div>
       <div class="range-subtitle">estimated range</div>
     </div>
@@ -295,8 +285,8 @@
     <div class="location-footer" id="location-footer">
       <div class="location-address" id="location-address">📍 Location unknown</div>
       <div class="location-details">
-        <span id="home-distance">-- km from home</span>
-        <span id="last-parked">Parked: --</span>
+        <span id="home-distance"></span>
+        <span id="last-parked"></span>
       </div>
     </div>
   </div>
@@ -356,6 +346,7 @@
         var locAddress = document.getElementById('location-address');
         var homeDist = document.getElementById('home-distance');
         var lastParked = document.getElementById('last-parked');
+        var footer = document.getElementById('location-footer');
 
         if (bikeName) bikeName.innerText = (data.name || 'COWBOY BIKE').toUpperCase();
         
@@ -371,16 +362,33 @@
         if (speedVal) speedVal.innerText = (data.meter_speed || 0).toFixed(1);
         if (odoVal) odoVal.innerText = Math.round(data.meter_odo || 0);
 
-        // Update Location & Status
+        // Update Location & Status Footer
+        var hasLocation = data.location && data.location.trim().length > 0;
+        var hasDistance = data.meter_distance && data.meter_distance > 0;
+        var hasParked = data.last_parked && data.last_parked.trim().length > 0;
+
         if (locAddress) {
-          locAddress.innerText = data.location ? '📍 ' + data.location : '📍 Location unavailable';
+          if (hasLocation) {
+            locAddress.style.display = 'block';
+            locAddress.innerText = '📍 ' + data.location;
+          } else if (hasParked) {
+            locAddress.style.display = 'block';
+            locAddress.innerText = '📍 Parked: ' + data.last_parked;
+          } else {
+            locAddress.style.display = 'none';
+          }
         }
+
         if (homeDist) {
-          var dist = data.meter_distance !== undefined ? data.meter_distance.toFixed(1) : '--';
-          homeDist.innerText = dist + ' km from home';
+          homeDist.innerText = hasDistance ? data.meter_distance.toFixed(1) + ' km from home' : '';
         }
+
         if (lastParked) {
-          lastParked.innerText = data.last_parked ? 'Parked: ' + data.last_parked : '';
+          lastParked.innerText = (hasLocation && hasParked) ? 'Parked: ' + data.last_parked : '';
+        }
+
+        if (footer) {
+          footer.style.display = (hasLocation || hasDistance || hasParked) ? 'flex' : 'none';
         }
 
         updateStatusBadge(data);
