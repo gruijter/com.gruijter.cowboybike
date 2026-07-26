@@ -1,5 +1,5 @@
 /*
-Copyright 2023 -2024, Robin de Gruijter (gruijter@hotmail.com)
+Copyright 2023 - 2026, Robin de Gruijter (gruijter@hotmail.com)
 
 This file is part of com.gruijter.cowboybike.
 
@@ -161,7 +161,16 @@ class Cowboy {
     }
   }
 
-  async _makeRequest(actionPath, data, timeout) {
+  async getPlaces() {
+    try {
+      const res = await this._makeRequest('/users/me/places');
+      return Promise.resolve(res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  async _makeRequest(actionPath, data, timeout, isRetry) {
     try {
       // check if logged in and not expired
       if ((actionPath !== loginEP && actionPath !== checkUserEP)) {
@@ -191,11 +200,26 @@ class Cowboy {
       if (!/application\/json/.test(contentType)) {
         throw Error(`Expected json but received ${contentType}: ${result.body}`);
       }
+
+      // Attempt automatic re-login retry on 401 Unauthorized
+      if (result.statusCode === 401 && !isRetry && actionPath !== loginEP && actionPath !== checkUserEP) {
+        await this.login();
+        return await this._makeRequest(actionPath, data, timeout, true);
+      }
+
       // find errors
       if (result.statusCode !== 200) {
         this.lastResponse = result.statusCode;
-        // console.log(result.body);
-        throw Error(`HTTP request Failed. Status Code: ${result.statusCode}`);
+        let errMsg = `Status Code: ${result.statusCode}`;
+        try {
+          const errJson = JSON.parse(result.body);
+          if (errJson && (errJson.error || errJson.errors || errJson.message)) {
+            errMsg += ` - ${JSON.stringify(errJson.errors || errJson.error || errJson.message)}`;
+          }
+        } catch (e) {
+          // ignore parse error
+        }
+        throw Error(`HTTP request Failed. ${errMsg}`);
       }
       // capture session token and expiry
       this.uid = result.headers.uid;

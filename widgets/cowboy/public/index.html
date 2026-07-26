@@ -12,6 +12,7 @@
       --text-muted: var(--homey-color-text-light, #90939a);
       --text-subtle: #6c6f78;
       --accent-green: #34c759;
+      --accent-blue: #0a84ff;
       --accent-red: #ff3b30;
       --accent-orange: #ff9500;
       --border-radius: 12px;
@@ -54,14 +55,14 @@
     .header-top {
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
     }
 
     .header-left {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      max-width: 70%;
+      gap: 3px;
+      max-width: 72%;
     }
 
     .bike-name {
@@ -81,12 +82,16 @@
       gap: 4px;
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.3px;
       padding: 2px 7px;
       border-radius: 10px;
       width: fit-content;
       background-color: rgba(52, 199, 89, 0.15);
       color: var(--accent-green);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .status-badge.alarm-danger {
@@ -143,10 +148,10 @@
     }
 
     .bike-img {
-      max-width: 80%;
-      max-height: 140px;
+      width: 92%;
+      max-height: 155px;
       object-fit: contain;
-      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
     }
 
     /* Range Display */
@@ -162,7 +167,7 @@
     }
 
     .range-unit {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--text-muted);
       margin-left: 4px;
@@ -229,8 +234,6 @@
     .location-details {
       font-size: 10px;
       color: var(--text-muted);
-      display: flex;
-      justify-content: space-between;
     }
   </style>
 </head>
@@ -283,11 +286,8 @@
 
     <!-- Location Footer -->
     <div class="location-footer" id="location-footer">
-      <div class="location-address" id="location-address">📍 Location unknown</div>
-      <div class="location-details">
-        <span id="home-distance"></span>
-        <span id="last-parked"></span>
-      </div>
+      <div class="location-address" id="location-address">📍 Location: Unavailable</div>
+      <div class="location-details" id="home-distance"></div>
     </div>
   </div>
 
@@ -329,7 +329,8 @@
           badge.className += ' alarm-warning';
           badge.innerText = '🪫 LOW BATTERY';
         } else {
-          badge.innerText = '🟢 PARKED';
+          var parkedTime = data.last_parked ? ' (' + data.last_parked + ')' : '';
+          badge.innerText = '🟢 PARKED' + parkedTime;
         }
       }
 
@@ -345,8 +346,6 @@
         var odoVal = document.getElementById('odo-val');
         var locAddress = document.getElementById('location-address');
         var homeDist = document.getElementById('home-distance');
-        var lastParked = document.getElementById('last-parked');
-        var footer = document.getElementById('location-footer');
 
         if (bikeName) bikeName.innerText = (data.name || 'COWBOY BIKE').toUpperCase();
         
@@ -363,32 +362,18 @@
         if (odoVal) odoVal.innerText = Math.round(data.meter_odo || 0);
 
         // Update Location & Status Footer
-        var hasLocation = data.location && data.location.trim().length > 0;
-        var hasDistance = data.meter_distance && data.meter_distance > 0;
-        var hasParked = data.last_parked && data.last_parked.trim().length > 0;
-
+        var addressText = (data.location && data.location.trim().length > 0) ? data.location : 'Unavailable';
         if (locAddress) {
-          if (hasLocation) {
-            locAddress.style.display = 'block';
-            locAddress.innerText = '📍 ' + data.location;
-          } else if (hasParked) {
-            locAddress.style.display = 'block';
-            locAddress.innerText = '📍 Parked: ' + data.last_parked;
-          } else {
-            locAddress.style.display = 'none';
-          }
+          locAddress.innerText = '📍 Location: ' + addressText;
         }
 
         if (homeDist) {
-          homeDist.innerText = hasDistance ? data.meter_distance.toFixed(1) + ' km from home' : '';
-        }
-
-        if (lastParked) {
-          lastParked.innerText = (hasLocation && hasParked) ? 'Parked: ' + data.last_parked : '';
-        }
-
-        if (footer) {
-          footer.style.display = (hasLocation || hasDistance || hasParked) ? 'flex' : 'none';
+          if (data.meter_distance && data.meter_distance > 0) {
+            homeDist.innerText = data.meter_distance.toFixed(1) + ' km from home';
+            homeDist.style.display = 'block';
+          } else {
+            homeDist.style.display = 'none';
+          }
         }
 
         updateStatusBadge(data);

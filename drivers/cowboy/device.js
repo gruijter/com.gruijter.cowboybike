@@ -237,6 +237,8 @@ class MyDevice extends Device {
           const speed = 3600 * (deltaD / deltaT);
           this.setCapability('meter_speed', speed);
           // console.log(bike, deltaT, deltaD, speed);
+        } else {
+          this.setCapability('meter_speed', 0);
         }
         if (deltaD > 0) {
           this.setCapability('last_parked', `${date} ${time}`);
