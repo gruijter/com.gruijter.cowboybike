@@ -22,5 +22,8 @@
   },
   "3.0.0": {
     "en": "API rewrite. Fixed concurrent use with native Cowboy app."
+  },
+  "4.0.0": {
+    "en": "Major upgrade. Added capabilities, widgets and flows. Added transdlations. Improved stability."
   }
 }
