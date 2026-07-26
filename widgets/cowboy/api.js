@@ -50,7 +50,6 @@ module.exports = {
     if (meterSpeed === 0 && device._lastTripSpeed) {
       meterSpeed = device._lastTripSpeed;
     }
-    homey.log(`[WIDGET API DIAGNOSTIC] device=${device.getName()}, meter_speed=${meterSpeed}, _lastTripSpeed=${device._lastTripSpeed}`);
 
     return {
       id: device.getData() ? device.getData().id : device.id,

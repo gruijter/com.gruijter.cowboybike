@@ -108,8 +108,6 @@ module.exports = {
       longestTripVal = tripCap > 5 ? tripCap : Math.round((totalDistance / 25) * 10) / 10;
     }
 
-    homey.log(`[STATS WIDGET DIAGNOSTIC] odo=${totalDistance.toFixed(1)}, co2=${co2Kg.toFixed(1)}, hours=${totalHours.toFixed(1)}, trips=${totalTrips}, topSpeed=${topSpeedVal.toFixed(1)}, longest=${longestTripVal.toFixed(1)}`);
-
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),

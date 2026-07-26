@@ -51,22 +51,6 @@ class MyDevice extends Device {
       this.nominatim = new Nominatim();
       await this.cowboy.getMe();
       this.log(JSON.stringify(this.cowboy.data));
-
-      try {
-        const metrics = await this.cowboy.getTripMetrics().catch((e) => (e ? e.message : 'fail'));
-        const records = await this.cowboy.getPersonalRecords().catch((e) => (e ? e.message : 'fail'));
-        const badges = await this.cowboy.getBadges().catch((e) => (e ? e.message : 'fail'));
-        const highlights = await this.cowboy.getHighlights().catch((e) => (e ? e.message : 'fail'));
-        const offset = await this.cowboy.getTripsOffset().catch((e) => (e ? e.message : 'fail'));
-
-        this.log('[DIAGNOSTIC METRICS]:', JSON.stringify(metrics));
-        this.log('[DIAGNOSTIC RECORDS]:', JSON.stringify(records));
-        this.log('[DIAGNOSTIC BADGES]:', JSON.stringify(badges));
-        this.log('[DIAGNOSTIC HIGHLIGHTS]:', JSON.stringify(highlights));
-        this.log('[DIAGNOSTIC OFFSET]:', JSON.stringify(offset));
-      } catch (e) {
-        this.error('[DIAGNOSTIC ERROR]:', e);
-      }
       await this.handleData();
       this.startPolling(settings.pollInterval);
       this.log(`${this.getName()} has been initialized`);
@@ -303,14 +287,12 @@ class MyDevice extends Device {
       const { bike } = (this.cowboy && this.cowboy.data) || {};
       let speedCap = this.getCapabilityValue('meter_speed');
       let storedSpeed = this.getStoreValue('lastTripSpeed');
-      this.log(`[TRIP SPEED DIAGNOSTIC] initial capability=${speedCap}, storedSpeed=${storedSpeed}`);
 
       // Filter out tiny noise values (< 3 km/h like 0.0233)
       if (typeof speedCap === 'number' && speedCap < 3) speedCap = 0;
       if (typeof storedSpeed === 'number' && storedSpeed < 3) storedSpeed = 0;
 
       if (speedCap === 0 && storedSpeed > 0) {
-        this.log(`[TRIP SPEED DIAGNOSTIC] Restoring storedSpeed ${storedSpeed} to capability`);
         speedCap = storedSpeed;
         this.setCapability('meter_speed', storedSpeed);
         this.setCapabilityValue('meter_speed', storedSpeed).catch(this.error);
@@ -318,14 +300,8 @@ class MyDevice extends Device {
       }
 
       if (!speedCap || speedCap === 0) {
-        this.log(`[TRIP SPEED DIAGNOSTIC] Speed is 0 or noise, checking Cowboy API recent trips...`);
         if (this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
-          const res = await this.cowboy.getRecentTrips().catch((err) => {
-            this.error('getRecentTrips failed:', err);
-            return null;
-          });
-
-          this.log(`[TRIP SPEED DIAGNOSTIC] getRecentTrips raw response: ${JSON.stringify(res)}`);
+          const res = await this.cowboy.getRecentTrips().catch(() => null);
 
           let trips = null;
           if (Array.isArray(res)) trips = res;
@@ -344,7 +320,7 @@ class MyDevice extends Device {
             }
 
             if (calculatedSpeed >= 3) {
-              this.log(`[TRIP SPEED DIAGNOSTIC] Found trip average speed: ${calculatedSpeed.toFixed(1)} km/h`);
+              this.log(`Updated last trip speed: ${calculatedSpeed.toFixed(1)} km/h`);
               this._lastTripSpeed = calculatedSpeed;
               this.setCapability('meter_speed', calculatedSpeed);
               this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
@@ -358,7 +334,7 @@ class MyDevice extends Device {
         if (bike && bike.total_distance > 0 && bike.total_duration > 0) {
           const overallAvgSpeed = Math.round((bike.total_distance / (bike.total_duration / 3600)) * 10) / 10;
           if (overallAvgSpeed > 0) {
-            this.log(`[TRIP SPEED DIAGNOSTIC] Setting fallback to overall avg: ${overallAvgSpeed} km/h`);
+            this.log(`Updated last trip speed fallback to overall avg: ${overallAvgSpeed} km/h`);
             this._lastTripSpeed = overallAvgSpeed;
             this.setCapability('meter_speed', overallAvgSpeed);
             this.setCapabilityValue('meter_speed', overallAvgSpeed).catch(this.error);
@@ -366,14 +342,13 @@ class MyDevice extends Device {
           }
         }
       } else {
-        this.log(`[TRIP SPEED DIAGNOSTIC] Using existing speed ${speedCap} km/h`);
         this._lastTripSpeed = speedCap;
         this.setCapability('meter_speed', speedCap);
         this.setCapabilityValue('meter_speed', speedCap).catch(this.error);
         this.setStoreValue('lastTripSpeed', speedCap).catch(this.error);
       }
     } catch (e) {
-      this.error('[TRIP SPEED DIAGNOSTIC] error:', e);
+      this.error('updateLastTripSpeed error:', e);
     }
   }
 
