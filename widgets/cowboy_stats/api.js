@@ -9,9 +9,10 @@ module.exports = {
     let device;
 
     if (query && query.deviceId) {
+      const targetId = String(query.deviceId).trim();
       device = devices.find((d) => {
-        const data = d.getData();
-        return (data && data.id === query.deviceId) || d.id === query.deviceId;
+        const data = d.getData() || {};
+        return String(d.id) === targetId || String(data.id) === targetId;
       });
     }
 

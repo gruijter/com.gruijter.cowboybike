@@ -326,13 +326,17 @@
       }
 
       function getSelectedDeviceId() {
-        var settings = Homey.getSettings();
+        var settings = typeof Homey.getSettings === 'function' ? Homey.getSettings() : {};
         if (settings && settings.device) {
-          return typeof settings.device === 'object' ? settings.device.id : settings.device;
+          if (typeof settings.device === 'string') return settings.device;
+          if (typeof settings.device === 'object') {
+            if (settings.device.id) return String(settings.device.id);
+            if (settings.device.data && settings.device.data.id) return String(settings.device.data.id);
+          }
         }
         if (typeof Homey.getDeviceIds === 'function') {
           var ids = Homey.getDeviceIds();
-          if (ids && ids.length > 0) return ids[0];
+          if (ids && ids.length > 0) return String(ids[0]);
         }
         return null;
       }
@@ -436,6 +440,11 @@
       }
 
       fetchBikeData();
+      if (typeof Homey.onSettings === 'function') {
+        Homey.onSettings(function() {
+          fetchBikeData();
+        });
+      }
       setInterval(fetchBikeData, 10000);
     }
   </script>
