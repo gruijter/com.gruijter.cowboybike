@@ -78,6 +78,7 @@ module.exports = {
       ride_mode: device.hasCapability('ride_mode') ? device.getCapabilityValue('ride_mode') : null,
       measure_elevation: device.hasCapability('measure_elevation') ? device.getCapabilityValue('measure_elevation') : null,
       model: (bikeData.model && bikeData.model.name) ? bikeData.model.name : (device.getSettings().model || ''),
+      trip_duration: (device._lastTripDuration || (typeof device.getStoreValue === 'function' && device.getStoreValue('lastTripDuration'))) || ((device.getCapabilityValue('meter_trip') && meterSpeed) ? Math.round((device.getCapabilityValue('meter_trip') / meterSpeed) * 60) : 0),
     };
   },
 };

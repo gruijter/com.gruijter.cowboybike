@@ -42,6 +42,10 @@ class MyDevice extends Device {
         this.setCapability('meter_speed', storedLastTripSpeed);
         this._lastTripSpeed = storedLastTripSpeed;
       }
+      const storedLastTripDuration = this.getStoreValue('lastTripDuration');
+      if (storedLastTripDuration && storedLastTripDuration > 0) {
+        this._lastTripDuration = storedLastTripDuration;
+      }
       const settings = this.getSettings();
       const options = {
         email: settings.email,
@@ -317,6 +321,7 @@ class MyDevice extends Device {
             this.setStoreValue('lastTripSpeed', speed).catch(this.error);
             this._lastTripSpeed = speed;
           }
+          this._lastTripDuration = Math.round(deltaT / 60);
           this.currentSpeed = speed;
         } else {
           this.currentSpeed = 0;
@@ -357,53 +362,67 @@ class MyDevice extends Device {
         this._lastTripSpeed = storedSpeed;
       }
 
-      if (!speedCap || speedCap === 0) {
-        if (this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
-          const res = await this.cowboy.getRecentTrips().catch(() => null);
+      // Try fetching recent trips if _lastTripDuration is missing or speedCap is 0
+      if ((!speedCap || speedCap === 0 || !this._lastTripDuration) && this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
+        const res = await this.cowboy.getRecentTrips().catch(() => null);
 
-          let trips = null;
-          if (Array.isArray(res)) trips = res;
-          else if (res && Array.isArray(res.trips)) trips = res.trips;
-          else if (res && Array.isArray(res.data)) trips = res.data;
+        let trips = null;
+        if (Array.isArray(res)) trips = res;
+        else if (res && Array.isArray(res.trips)) trips = res.trips;
+        else if (res && Array.isArray(res.data)) trips = res.data;
 
-          if (trips && trips.length > 0) {
-            const lastTrip = trips[0];
-            let calculatedSpeed = 0;
-            if (typeof lastTrip.avg_speed === 'number' && lastTrip.avg_speed > 0) {
-              calculatedSpeed = lastTrip.avg_speed;
-            } else if (typeof lastTrip.speed === 'number' && lastTrip.speed > 0) {
-              calculatedSpeed = lastTrip.speed;
-            } else if (lastTrip.distance && lastTrip.duration && lastTrip.duration > 0) {
-              calculatedSpeed = (lastTrip.distance / lastTrip.duration) * 3.6;
-            }
+        if (trips && trips.length > 0) {
+          const lastTrip = trips[0];
+          if (typeof lastTrip.duration === 'number' && lastTrip.duration > 0) {
+            const durMin = Math.round(lastTrip.duration / 60);
+            this._lastTripDuration = durMin;
+            this.setStoreValue('lastTripDuration', durMin).catch(this.error);
+          }
+          let calculatedSpeed = 0;
+          if (typeof lastTrip.avg_speed === 'number' && lastTrip.avg_speed > 0) {
+            calculatedSpeed = lastTrip.avg_speed;
+          } else if (typeof lastTrip.speed === 'number' && lastTrip.speed > 0) {
+            calculatedSpeed = lastTrip.speed;
+          } else if (lastTrip.distance && lastTrip.duration && lastTrip.duration > 0) {
+            calculatedSpeed = (lastTrip.distance / lastTrip.duration) * 3.6;
+          }
 
-            if (calculatedSpeed >= 3) {
-              this.log(`Updated last trip speed: ${calculatedSpeed.toFixed(1)} km/h`);
-              this._lastTripSpeed = calculatedSpeed;
-              this.setCapability('meter_speed', calculatedSpeed);
-              this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
-              this.setStoreValue('lastTripSpeed', calculatedSpeed).catch(this.error);
-              return;
-            }
+          if (calculatedSpeed >= 3) {
+            this.log(`Updated last trip speed: ${calculatedSpeed.toFixed(1)} km/h`);
+            this._lastTripSpeed = calculatedSpeed;
+            this.setCapability('meter_speed', calculatedSpeed);
+            this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
+            this.setStoreValue('lastTripSpeed', calculatedSpeed).catch(this.error);
           }
         }
+      }
 
-        // Fallback: If API trip history is unavailable or unpopulated, calculate overall average speed from total_distance & total_duration
-        if (bike && bike.total_distance > 0 && bike.total_duration > 0) {
-          const overallAvgSpeed = Math.round((bike.total_distance / (bike.total_duration / 3600)) * 10) / 10;
-          if (overallAvgSpeed > 0) {
-            this.log(`Updated last trip speed fallback to overall avg: ${overallAvgSpeed} km/h`);
-            this._lastTripSpeed = overallAvgSpeed;
-            this.setCapability('meter_speed', overallAvgSpeed);
-            this.setCapabilityValue('meter_speed', overallAvgSpeed).catch(this.error);
-            this.setStoreValue('lastTripSpeed', overallAvgSpeed).catch(this.error);
+      // Fallback calculation for duration if still missing
+      if (!this._lastTripDuration) {
+        const tripKm = this.getCapabilityValue('meter_trip') || 0;
+        const currentSpeed = this._lastTripSpeed || speedCap || 0;
+        if (tripKm > 0 && currentSpeed > 0) {
+          const calcDur = Math.round((tripKm / currentSpeed) * 60);
+          if (calcDur > 0) {
+            this._lastTripDuration = calcDur;
+            this.setStoreValue('lastTripDuration', calcDur).catch(this.error);
           }
         }
-      } else {
+      }
+
+      if (speedCap > 0) {
         this._lastTripSpeed = speedCap;
         this.setCapability('meter_speed', speedCap);
         this.setCapabilityValue('meter_speed', speedCap).catch(this.error);
         this.setStoreValue('lastTripSpeed', speedCap).catch(this.error);
+      } else if (bike && bike.total_distance > 0 && bike.total_duration > 0) {
+        const overallAvgSpeed = Math.round((bike.total_distance / (bike.total_duration / 3600)) * 10) / 10;
+        if (overallAvgSpeed > 0) {
+          this._lastTripSpeed = overallAvgSpeed;
+          this.setCapability('meter_speed', overallAvgSpeed);
+          this.setCapabilityValue('meter_speed', overallAvgSpeed).catch(this.error);
+          this.setStoreValue('lastTripSpeed', overallAvgSpeed).catch(this.error);
+        }
       }
     } catch (e) {
       this.error('updateLastTripSpeed error:', e);
