@@ -232,7 +232,7 @@ class MyDevice extends Device {
       }
 
       // dynamic capability: ride_mode
-      const hasRideModeFeature = (bike.available_features && bike.available_features.ride_mode === 'available') || bike.last_ride_mode;
+      const hasRideModeFeature = (bike.available_features && bike.available_features.ride_mode === 'available');
       if (hasRideModeFeature && bike.last_ride_mode) {
         if (!this.hasCapability('ride_mode')) {
           await this.addCapability('ride_mode').catch(this.error);

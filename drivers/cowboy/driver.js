@@ -61,16 +61,16 @@ class MyDriver extends Driver {
           interval: 5,
           lat: Math.round(this.homey.geolocation.getLatitude() * 100000000) / 100000000,
           lon: Math.round(this.homey.geolocation.getLongitude() * 100000000) / 100000000,
-          model: info.bike.model.name,
-          sku: info.bike.sku_code,
-          serial: info.bike.serial_number,
-          mac: info.bike.mac_address,
-          actDate: info.bike.activated_at,
-          firmware: info.bike.firmware_version,
-          maxSpeed: info.bike.settings.max_speed.toString(),
+          model: (info.bike.model && info.bike.model.name) ? info.bike.model.name : 'Cowboy',
+          sku: info.bike.sku_code || '',
+          serial: info.bike.serial_number || '',
+          mac: info.bike.mac_address || '',
+          actDate: info.bike.activated_at || '',
+          firmware: info.bike.firmware_version || '',
+          maxSpeed: (info.bike.settings && info.bike.settings.max_speed != null) ? info.bike.settings.max_speed.toString() : '28',
         },
       };
-      if (info.bike.sku && info.bike.sku.features) device.settings.maxRange = info.bike.sku.features.battery_autonomy.toString();
+      if (info.bike.sku && info.bike.sku.features && info.bike.sku.features.battery_autonomy != null) device.settings.maxRange = info.bike.sku.features.battery_autonomy.toString();
       return [device];
     });
   }
