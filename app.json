@@ -1012,18 +1012,13 @@
   "widgets": {
     "cowboy": {
       "name": {
-        "en": "Cowboy Bike"
+        "en": "Cowboy Bike",
+        "nl": "Cowboy Fiets"
       },
-      "settings": [
-        {
-          "id": "device",
-          "type": "device",
-          "filter": "driver_id=cowboy",
-          "title": {
-            "en": "Select bike"
-          }
-        }
-      ],
+      "devices": {
+        "type": "app",
+        "singular": true
+      },
       "height": 440,
       "api": {
         "getBikeData": {
@@ -1031,22 +1026,18 @@
           "path": "/"
         }
       },
-      "id": "cowboy"
+      "id": "cowboy",
+      "settings": []
     },
     "cowboy_stats": {
       "name": {
-        "en": "Cowboy Stats"
+        "en": "Cowboy Stats",
+        "nl": "Cowboy Statistieken"
       },
-      "settings": [
-        {
-          "id": "device",
-          "type": "device",
-          "filter": "driver_id=cowboy",
-          "title": {
-            "en": "Select bike"
-          }
-        }
-      ],
+      "devices": {
+        "type": "app",
+        "singular": true
+      },
       "height": 440,
       "api": {
         "getStatsData": {
@@ -1054,7 +1045,8 @@
           "path": "/"
         }
       },
-      "id": "cowboy_stats"
+      "id": "cowboy_stats",
+      "settings": []
     }
   },
   "capabilities": {

@@ -326,17 +326,22 @@
       }
 
       function getSelectedDeviceId() {
-        var settings = typeof Homey.getSettings === 'function' ? Homey.getSettings() : {};
-        if (settings && settings.device) {
-          if (typeof settings.device === 'string') return settings.device;
-          if (typeof settings.device === 'object') {
-            if (settings.device.id) return String(settings.device.id);
-            if (settings.device.data && settings.device.data.id) return String(settings.device.data.id);
-          }
-        }
         if (typeof Homey.getDeviceIds === 'function') {
           var ids = Homey.getDeviceIds();
           if (ids && ids.length > 0) return String(ids[0]);
+        }
+        var settings = typeof Homey.getSettings === 'function' ? Homey.getSettings() : {};
+        if (settings) {
+          if (settings.device) {
+            if (typeof settings.device === 'string') return settings.device;
+            if (typeof settings.device === 'object') {
+              if (settings.device.id) return String(settings.device.id);
+              if (settings.device.data && settings.device.data.id) return String(settings.device.data.id);
+            }
+          }
+          if (settings.devices && Array.isArray(settings.devices) && settings.devices.length > 0) {
+            return String(settings.devices[0]);
+          }
         }
         return null;
       }

@@ -1,17 +1,12 @@
 {
   "name": {
-    "en": "Cowboy Bike"
+    "en": "Cowboy Bike",
+    "nl": "Cowboy Fiets"
   },
-  "settings": [
-    {
-      "id": "device",
-      "type": "device",
-      "filter": "driver_id=cowboy",
-      "title": {
-        "en": "Select bike"
-      }
-    }
-  ],
+  "devices": {
+    "type": "app",
+    "singular": true
+  },
   "height": 440,
   "api": {
     "getBikeData": {
