@@ -625,7 +625,7 @@
               "da": "JSON-data",
               "pl": "Dane JSON"
             },
-            "example": "{\"nickname\":\"RobinsBike\",\"battery\":60}"
+            "example": "{\"nickname\":\"Cross\",\"model\":\"Cross\",\"battery_state_of_charge\":71,\"battery_inserted\":true,\"last_ride_mode\":\"adaptive_eu\",\"crashed\":false,\"stolen\":false,\"total_distance\":623.05,\"position\":{\"latitude\":53.9013,\"longitude\":11.4789,\"elevation\":8.1,\"type\":\"trip\"},\"brake_type\":\"Tektro\",\"frame_type\":\"Edition U\",\"has_cowboy_connect\":true}"
           }
         ],
         "id": "get_json_info"
