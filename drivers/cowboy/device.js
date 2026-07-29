@@ -285,7 +285,11 @@ class MyDevice extends Device {
       const lastLocTm = new Date(bike.position.received_at);
       const date = lastLocTm.toString().substring(4, 11);
       const time = lastLocTm.toLocaleTimeString('nl-NL', { hour12: false, timeZone: this.homey.clock.getTimezone() }).substring(0, 5);
-      if (!this.lastBikeData) this.setCapability('last_parked', `${date} ${time}`);
+      
+      // Only set last_parked on first initialization if capability is not set yet
+      if (!this.getCapabilityValue('last_parked')) {
+        this.setCapability('last_parked', `${date} ${time}`);
+      }
 
       // update relocation based capabilities
       if (this.lastBikeData) {
@@ -321,7 +325,6 @@ class MyDevice extends Device {
             this.setStoreValue('lastTripSpeed', speed).catch(this.error);
             this._lastTripSpeed = speed;
           }
-          this._lastTripDuration = Math.round(deltaT / 60);
           this.currentSpeed = speed;
         } else {
           this.currentSpeed = 0;
@@ -330,9 +333,10 @@ class MyDevice extends Device {
           this.setCapability('last_parked', `${date} ${time}`);
           this.setCapability('meter_trip', deltaD);
           this.setCapability('alarm_relocated', false);
-        } else if (movedBeeline > 0.25) this.setCapability('last_parked', `${date} ${time}`);
+        } else if (movedBeeline > 0.25) {
+          this.setCapability('last_parked', `${date} ${time}`);
+        }
         if (relocatedAlarm) this.setCapability('alarm_relocated', true);
-        // console.log(movedBeeline, relocatedAlarm);
       }
 
       // store bike data and update app settings
@@ -362,8 +366,8 @@ class MyDevice extends Device {
         this._lastTripSpeed = storedSpeed;
       }
 
-      // Try fetching recent trips if _lastTripDuration is missing or speedCap is 0
-      if ((!speedCap || speedCap === 0 || !this._lastTripDuration) && this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
+      // Query recent trips if available
+      if (this.cowboy && typeof this.cowboy.getRecentTrips === 'function') {
         const res = await this.cowboy.getRecentTrips().catch(() => null);
 
         let trips = null;
@@ -373,11 +377,18 @@ class MyDevice extends Device {
 
         if (trips && trips.length > 0) {
           const lastTrip = trips[0];
+          let tripDur = 0;
           if (typeof lastTrip.duration === 'number' && lastTrip.duration > 0) {
-            const durMin = Math.round(lastTrip.duration / 60);
-            this._lastTripDuration = durMin;
-            this.setStoreValue('lastTripDuration', durMin).catch(this.error);
+            tripDur = Math.round(lastTrip.duration / 60);
+          } else if (typeof lastTrip.duration_minutes === 'number' && lastTrip.duration_minutes > 0) {
+            tripDur = Math.round(lastTrip.duration_minutes);
           }
+
+          if (tripDur > 0) {
+            this._lastTripDuration = tripDur;
+            this.setStoreValue('lastTripDuration', tripDur).catch(this.error);
+          }
+
           let calculatedSpeed = 0;
           if (typeof lastTrip.avg_speed === 'number' && lastTrip.avg_speed > 0) {
             calculatedSpeed = lastTrip.avg_speed;
@@ -388,7 +399,6 @@ class MyDevice extends Device {
           }
 
           if (calculatedSpeed >= 3) {
-            this.log(`Updated last trip speed: ${calculatedSpeed.toFixed(1)} km/h`);
             this._lastTripSpeed = calculatedSpeed;
             this.setCapability('meter_speed', calculatedSpeed);
             this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
@@ -397,16 +407,14 @@ class MyDevice extends Device {
         }
       }
 
-      // Fallback calculation for duration if still missing
-      if (!this._lastTripDuration) {
-        const tripKm = this.getCapabilityValue('meter_trip') || 0;
-        const currentSpeed = this._lastTripSpeed || speedCap || 0;
-        if (tripKm > 0 && currentSpeed > 0) {
-          const calcDur = Math.round((tripKm / currentSpeed) * 60);
-          if (calcDur > 0) {
-            this._lastTripDuration = calcDur;
-            this.setStoreValue('lastTripDuration', calcDur).catch(this.error);
-          }
+      // Fallback calculation for duration if still missing or inaccurate
+      const tripKm = this.getCapabilityValue('meter_trip') || 0;
+      const speedVal = this._lastTripSpeed || this.getCapabilityValue('meter_speed') || 0;
+      if (tripKm > 0 && speedVal > 0) {
+        const calcDur = Math.round((tripKm / speedVal) * 60);
+        if (calcDur > 0) {
+          this._lastTripDuration = calcDur;
+          this.setStoreValue('lastTripDuration', calcDur).catch(this.error);
         }
       }
 
@@ -417,7 +425,7 @@ class MyDevice extends Device {
         this.setStoreValue('lastTripSpeed', speedCap).catch(this.error);
       } else if (bike && bike.total_distance > 0 && bike.total_duration > 0) {
         const overallAvgSpeed = Math.round((bike.total_distance / (bike.total_duration / 3600)) * 10) / 10;
-        if (overallAvgSpeed > 0) {
+        if (overallAvgSpeed > 0 && !this._lastTripSpeed) {
           this._lastTripSpeed = overallAvgSpeed;
           this.setCapability('meter_speed', overallAvgSpeed);
           this.setCapabilityValue('meter_speed', overallAvgSpeed).catch(this.error);
