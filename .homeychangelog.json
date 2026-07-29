@@ -24,6 +24,9 @@
     "en": "API rewrite. Fixed concurrent use with native Cowboy app."
   },
   "4.0.0": {
-    "en": "Major upgrade. Added capabilities, widgets and flows. Added transdlations. Improved stability."
+    "en": "Major upgrade. Added capabilities, widgets and flows. Added translations. Improved stability."
+  },
+  "4.1.0": {
+    "en": "Added Cowboy Cross, Cruiser & C4 model images and ride mode support. Enhanced widgets with trip duration and live ride status. Added JSON info flow card. Improved stability."
   }
 }
