@@ -328,6 +328,24 @@
         if (longestTripVal) longestTripVal.innerText = (data.longest_trip || 0).toFixed(1) + ' km';
         if (caloriesVal) caloriesVal.innerText = (data.most_calories || 0) + ' kcal';
         if (badgeVal) badgeVal.innerText = data.latest_badge || '--';
+
+        function updateBikeImage(modelName) {
+          var imgEl = document.querySelector('.bike-img');
+          if (!imgEl) return;
+          var model = (modelName || '').toLowerCase();
+
+          if (model.indexOf('cross') !== -1) {
+            imgEl.src = 'bike_cross.png';
+          } else if (model.indexOf('cruiser') !== -1 || model.indexOf('st') !== -1) {
+            imgEl.src = 'bike_cruiser.png';
+          } else if (model.indexOf('4') !== -1 || model.indexOf('classic') !== -1) {
+            imgEl.src = 'bike_c4.png';
+          } else {
+            imgEl.src = 'bike.png';
+          }
+        }
+
+        updateBikeImage(data.model);
       }
 
       function fetchStatsData() {

@@ -155,6 +155,7 @@ module.exports = {
       latest_badge: latestBadgeName,
       relative_rank: relativeRank,
       last_trip: parseFloat(tripCap.toFixed(1)),
+      model: (bikeData.model && bikeData.model.name) ? bikeData.model.name : (device.getSettings().model || ''),
     };
   },
 };

@@ -77,6 +77,7 @@ module.exports = {
       position_type: (bikeData.position && bikeData.position.type) ? bikeData.position.type : null,
       ride_mode: device.hasCapability('ride_mode') ? device.getCapabilityValue('ride_mode') : null,
       measure_elevation: device.hasCapability('measure_elevation') ? device.getCapabilityValue('measure_elevation') : null,
+      model: (bikeData.model && bikeData.model.name) ? bikeData.model.name : (device.getSettings().model || ''),
     };
   },
 };
