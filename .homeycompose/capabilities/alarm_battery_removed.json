@@ -1,0 +1,28 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Battery removed alarm",
+    "nl": "Accu verwijderd alarm",
+    "de": "Akku entfernt Alarm",
+    "fr": "Alarme batterie retirée"
+  },
+  "desc": {
+    "en": "True when battery is removed",
+    "nl": "Waar wanneer de accu is verwijderd",
+    "de": "Wahr, wenn der Akku entfernt wurde",
+    "fr": "Vrai wanneer la batterie est retirée"
+  },
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "Battery removed alarm turned on",
+    "nl": "Accu verwijderd alarm ingeschakeld"
+  },
+  "insightsTitleFalse": {
+    "en": "Battery removed alarm turned off",
+    "nl": "Accu verwijderd alarm uitgeschakeld"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "icon": "./assets/alarm_battery.svg"
+}

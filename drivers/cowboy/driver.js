@@ -23,7 +23,7 @@ const { Driver } = require('homey');
 const Cowboy = require('../../lib/cowboybike');
 
 const capabilities = ['last_parked', 'location', 'meter_distance', 'etth', 'meter_range', 'meter_odo', 'meter_trip', 'meter_speed', 'meter_duration',
-  'alarm_crashed', 'alarm_stolen', 'alarm_relocated', 'alarm_offline', 'alarm_batt', 'measure_battery', 'measure_battery.pcb',
+  'alarm_crashed', 'alarm_stolen', 'alarm_relocated', 'alarm_offline', 'alarm_batt', 'alarm_battery_removed', 'measure_battery', 'measure_battery.pcb',
   'latitude', 'longitude'];
 
 class MyDriver extends Driver {

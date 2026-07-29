@@ -1,0 +1,17 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Elevation",
+    "nl": "Hoogte",
+    "de": "Höhe",
+    "fr": "Altitude"
+  },
+  "units": {
+    "en": "m"
+  },
+  "decimals": 1,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "icon": "./assets/location.svg"
+}

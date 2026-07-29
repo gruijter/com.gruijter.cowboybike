@@ -101,6 +101,87 @@
 							"nl": "Smart lock"
 					},
 					"value": ""
+				},
+				{
+					"id": "color",
+					"type": "label",
+					"label": {
+							"en": "Color",
+							"nl": "Kleur"
+					},
+					"value": ""
+				},
+				{
+					"id": "accessories",
+					"type": "label",
+					"label": {
+							"en": "Accessories",
+							"nl": "Accessoires"
+					},
+					"value": ""
+				},
+				{
+					"id": "brakeType",
+					"type": "label",
+					"label": {
+							"en": "Brake type",
+							"nl": "Type remmen"
+					},
+					"value": ""
+				},
+				{
+					"id": "brakePadsType",
+					"type": "label",
+					"label": {
+							"en": "Brake pads type",
+							"nl": "Type remblokken"
+					},
+					"value": ""
+				},
+				{
+					"id": "frameType",
+					"type": "label",
+					"label": {
+							"en": "Frame type",
+							"nl": "Frame type"
+					},
+					"value": ""
+				},
+				{
+					"id": "torqueSensorType",
+					"type": "label",
+					"label": {
+							"en": "Torque sensor type",
+							"nl": "Koppelsensor type"
+					},
+					"value": ""
+				},
+				{
+					"id": "wirelessCharger",
+					"type": "label",
+					"label": {
+							"en": "Wireless charger cockpit",
+							"nl": "Draadloze lader cockpit"
+					},
+					"value": ""
+				},
+				{
+					"id": "warrantyEnds",
+					"type": "label",
+					"label": {
+							"en": "Warranty until",
+							"nl": "Garantie tot"
+					},
+					"value": ""
+				},
+				{
+					"id": "connect",
+					"type": "label",
+					"label": {
+							"en": "Cowboy Connect",
+							"nl": "Cowboy Connect"
+					},
+					"value": ""
 				}
 		]
 	},

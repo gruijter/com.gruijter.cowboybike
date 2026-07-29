@@ -1,0 +1,12 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Ride mode",
+    "nl": "Rijmodus",
+    "de": "Fahrmodus",
+    "fr": "Mode de conduite"
+  },
+  "getable": true,
+  "setable": false,
+  "icon": "./assets/range.svg"
+}

@@ -302,16 +302,16 @@
 
       var lang = (typeof Homey.getLanguage === 'function' ? Homey.getLanguage() : 'en').toLowerCase().substring(0, 2);
       var translations = {
-        en: { range: 'estimated range', trip: 'trip km', speed: 'avg km/h', odo: 'total km', location: 'Location', unavailable: 'Unavailable', fromHome: 'km from home', parked: 'PARKED', moving: 'ON THE MOVE', offline: 'OFFLINE', stolen: 'STOLEN ALARM', crash: 'CRASH ALARM', relocated: 'RELOCATED', lowBatt: 'LOW BATTERY' },
-        nl: { range: 'geschatte actieradius', trip: 'rit km', speed: 'gem km/h', odo: 'totaal km', location: 'Locatie', unavailable: 'Onbeschikbaar', fromHome: 'km van huis', parked: 'GEPARKEERD', moving: 'IN BEWEGING', offline: 'OFFLINE', stolen: 'DIEFSTAL ALARM', crash: 'VALPARTIJ ALARM', relocated: 'VERPLAATST', lowBatt: 'ACCU LEEG' },
-        de: { range: 'geschätzte Reichweite', trip: 'Fahrt km', speed: 'Ø km/h', odo: 'Gesamt km', location: 'Standort', unavailable: 'Nicht verfügbar', fromHome: 'km von zu Hause', parked: 'GEPARKT', moving: 'IN BEWEGUNG', offline: 'OFFLINE', stolen: 'DIEBSTAHLALARM', crash: 'STURZALARM', relocated: 'BEWEGT', lowBatt: 'AKKU SCHWACH' },
-        fr: { range: 'autonomie estimée', trip: 'trajet km', speed: 'moy km/h', odo: 'total km', location: 'Emplacement', unavailable: 'Indisponible', fromHome: 'km de la maison', parked: 'STATIONNÉ', moving: 'EN DÉPLACEMENT', offline: 'HORS LIGNE', stolen: 'ALARME VOL', crash: 'ALARME CHUTE', relocated: 'DÉPLACÉ', lowBatt: 'BATTERIE FAIBLE' },
-        it: { range: 'autonomia stimata', trip: 'viaggio km', speed: 'med km/h', odo: 'totale km', location: 'Posizione', unavailable: 'Non disponibile', fromHome: 'km da casa', parked: 'PARCHEGGIATA', moving: 'IN MOVIMENTO', offline: 'OFFLINE', stolen: 'ALLARME FURTO', crash: 'ALLARME INCIDENTE', relocated: 'SPOSTATA', lowBatt: 'BATTERIA SCARICA' },
-        es: { range: 'autonomía estimada', trip: 'viaje km', speed: 'prom km/h', odo: 'total km', location: 'Ubicación', unavailable: 'No disponible', fromHome: 'km de casa', parked: 'ESTACIONADA', moving: 'EN MOVIMIENTO', offline: 'DESCONECTADO', stolen: 'ALARMA ROBO', crash: 'ALARMA ACCIDENTE', relocated: 'DESPLAZADA', lowBatt: 'BATERÍA BAJA' },
-        sv: { range: 'uppskattad räckvidd', trip: 'resa km', speed: 'snitt km/h', odo: 'totalt km', location: 'Plats', unavailable: 'Ej tillgänglig', fromHome: 'km hemifrån', parked: 'PARKERAD', moving: 'I RÖRELSE', offline: 'OFFLINE', stolen: 'STÖDLARM', crash: 'KRASCHLARM', relocated: 'FLYTTAD', lowBatt: 'LÅGT BATTERI' },
-        no: { range: 'estimert rekkevidde', trip: 'tur km', speed: 'snitt km/h', odo: 'totalt km', location: 'Posisjon', unavailable: 'Utilgjengelig', fromHome: 'km fra hjemmet', parked: 'PARKERT', moving: 'I BEVEGELSE', offline: 'OFFLINE', stolen: 'TYVERIALARM', crash: 'KRASJALARM', relocated: 'FLYTTET', lowBatt: 'LAVT BATTERI' },
-        da: { range: 'forventet rækkevidde', trip: 'tur km', speed: 'gns km/h', odo: 'samlet km', location: 'Placering', unavailable: 'Utilgængelig', fromHome: 'km fra hjemmet', parked: 'PARKERET', moving: 'I BEVÆGELSE', offline: 'OFFLINE', stolen: 'TYVERIALARM', crash: 'STURZALARM', relocated: 'FLYTTET', lowBatt: 'LAVT BATTERI' },
-        pl: { range: 'szacowany zasięg', trip: 'trasa km', speed: 'śr km/h', odo: 'całkowity km', location: 'Lokalizacja', unavailable: 'Niedostępna', fromHome: 'km od domu', parked: 'ZAPARKOWANY', moving: 'W RUCHU', offline: 'OFFLINE', stolen: 'ALARM KRADZIEŻY', crash: 'ALARM WYPADKU', relocated: 'PRZEMIESZCZONY', lowBatt: 'NISKI POZIOM BATERII' }
+        en: { range: 'estimated range', trip: 'trip km', speed: 'avg km/h', odo: 'total km', location: 'Location', unavailable: 'Unavailable', fromHome: 'km from home', parked: 'PARKED', moving: 'ON THE MOVE', offline: 'OFFLINE', stolen: 'STOLEN ALARM', crash: 'CRASH ALARM', relocated: 'RELOCATED', lowBatt: 'LOW BATTERY', battRemoved: 'BATTERY REMOVED' },
+        nl: { range: 'geschatte actieradius', trip: 'rit km', speed: 'gem km/h', odo: 'totaal km', location: 'Locatie', unavailable: 'Onbeschikbaar', fromHome: 'km van huis', parked: 'GEPARKEERD', moving: 'IN BEWEGING', offline: 'OFFLINE', stolen: 'DIEFSTAL ALARM', crash: 'VALPARTIJ ALARM', relocated: 'VERPLAATST', lowBatt: 'ACCU LEEG', battRemoved: 'ACCU VERWIJDERD' },
+        de: { range: 'geschätzte Reichweite', trip: 'Fahrt km', speed: 'Ø km/h', odo: 'Gesamt km', location: 'Standort', unavailable: 'Nicht verfügbar', fromHome: 'km von zu Hause', parked: 'GEPARKT', moving: 'IN BEWEGUNG', offline: 'OFFLINE', stolen: 'DIEBSTAHLALARM', crash: 'STURZALARM', relocated: 'BEWEGT', lowBatt: 'AKKU SCHWACH', battRemoved: 'AKKU ENTFERNT' },
+        fr: { range: 'autonomie estimée', trip: 'trajet km', speed: 'moy km/h', odo: 'total km', location: 'Emplacement', unavailable: 'Indisponible', fromHome: 'km de la maison', parked: 'STATIONNÉ', moving: 'EN DÉPLACEMENT', offline: 'HORS LIGNE', stolen: 'ALARME VOL', crash: 'ALARME CHUTE', relocated: 'DÉPLACÉ', lowBatt: 'BATTERIE FAIBLE', battRemoved: 'BATTERIE RETIRÉE' },
+        it: { range: 'autonomia stimata', trip: 'viaggio km', speed: 'med km/h', odo: 'totale km', location: 'Posizione', unavailable: 'Non disponibile', fromHome: 'km da casa', parked: 'PARCHEGGIATA', moving: 'IN MOVIMENTO', offline: 'OFFLINE', stolen: 'ALLARME FURTO', crash: 'ALLARME INCIDENTE', relocated: 'SPOSTATA', lowBatt: 'BATTERIA SCARICA', battRemoved: 'BATTERIA RIMOSTA' },
+        es: { range: 'autonomía estimada', trip: 'viaje km', speed: 'prom km/h', odo: 'total km', location: 'Ubicación', unavailable: 'No disponible', fromHome: 'km de casa', parked: 'ESTACIONADA', moving: 'EN MOVIMIENTO', offline: 'DESCONECTADO', stolen: 'ALARMA ROBO', crash: 'ALARMA ACCIDENTE', relocated: 'DESPLAZADA', lowBatt: 'BATERÍA BAJA', battRemoved: 'BATERÍA RETIRADA' },
+        sv: { range: 'uppskattad räckvidd', trip: 'resa km', speed: 'snitt km/h', odo: 'totalt km', location: 'Plats', unavailable: 'Ej tillgänglig', fromHome: 'km hemifrån', parked: 'PARKERAD', moving: 'I RÖRELSE', offline: 'OFFLINE', stolen: 'STÖDLARM', crash: 'KRASCHLARM', relocated: 'FLYTTAD', lowBatt: 'LÅGT BATTERI', battRemoved: 'BATTERI BORTTAGET' },
+        no: { range: 'estimert rekkevidde', trip: 'tur km', speed: 'snitt km/h', odo: 'totalt km', location: 'Posisjon', unavailable: 'Utilgjengelig', fromHome: 'km fra hjemmet', parked: 'PARKERT', moving: 'I BEVEGELSE', offline: 'OFFLINE', stolen: 'TYVERIALARM', crash: 'KRASJALARM', relocated: 'FLYTTET', lowBatt: 'LAVT BATTERI', battRemoved: 'BATTERI FJERNET' },
+        da: { range: 'forventet rækkevidde', trip: 'tur km', speed: 'gns km/h', odo: 'samlet km', location: 'Placering', unavailable: 'Utilgængelig', fromHome: 'km fra hjemmet', parked: 'PARKERET', moving: 'I BEVÆGELSE', offline: 'OFFLINE', stolen: 'TYVERIALARM', crash: 'STURZALARM', relocated: 'FLYTTET', lowBatt: 'LAVT BATTERI', battRemoved: 'BATTERI FJERNET' },
+        pl: { range: 'szacowany zasięg', trip: 'trasa km', speed: 'śr km/h', odo: 'całkowity km', location: 'Lokalizacja', unavailable: 'Niedostępna', fromHome: 'km od domu', parked: 'ZAPARKOWANY', moving: 'W RUCHU', offline: 'OFFLINE', stolen: 'ALARM KRADZIEŻY', crash: 'ALARM WYPADKU', relocated: 'PRZEMIESZCZONY', lowBatt: 'NISKI POZIOM BATERII', battRemoved: 'BATERIA WYJĘTA' }
       };
       var t = translations[lang] || translations.en;
 
@@ -343,12 +343,15 @@
 
         badge.className = 'status-badge';
 
-        if (data.alarm_stolen) {
+        if (data.alarm_stolen || data.position_type === 'stolen') {
           badge.className += ' alarm-danger';
           badge.innerText = '🔴 ' + t.stolen;
         } else if (data.alarm_crashed) {
           badge.className += ' alarm-danger';
           badge.innerText = '💥 ' + t.crash;
+        } else if (data.alarm_battery_removed || data.battery_inserted === false) {
+          badge.className += ' alarm-warning';
+          badge.innerText = '🪫 ' + t.battRemoved;
         } else if (data.alarm_relocated) {
           badge.className += ' alarm-warning';
           badge.innerText = '🟡 ' + t.relocated;
@@ -358,9 +361,10 @@
         } else if (data.alarm_batt) {
           badge.className += ' alarm-warning';
           badge.innerText = '🪫 ' + t.lowBatt;
-        } else if (data.current_speed > 0) {
+        } else if (data.position_type === 'trip' || data.current_speed > 0) {
           badge.className += ' alarm-active';
-          badge.innerText = '🚴 ' + t.moving + ' (' + data.current_speed.toFixed(1) + ' km/h)';
+          var speedText = data.current_speed > 0 ? ' (' + data.current_speed.toFixed(1) + ' km/h)' : '';
+          badge.innerText = '🚴 ' + t.moving + speedText;
         } else {
           var parkedTime = data.last_parked ? ' (' + data.last_parked + ')' : '';
           badge.innerText = '🟢 ' + t.parked + parkedTime;

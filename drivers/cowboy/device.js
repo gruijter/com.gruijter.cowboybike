@@ -62,17 +62,18 @@ class MyDevice extends Device {
   async migrate() {
     try {
       this.log(`checking device migration for ${this.getName()}`);
+      const optionalCaps = ['ride_mode', 'measure_elevation'];
       // store the capability states before migration
       const sym = Object.getOwnPropertySymbols(this).find((s) => String(s) === 'Symbol(state)');
-      const state = this[sym];
-      // check and repair incorrect capability(order)
+      const state = this[sym] || {};
+      // check and repair incorrect capability(order) for base capabilities
       const correctCaps = this.driver.ds.capabilities;
-      for (let index = 0; index <= correctCaps.length; index += 1) {
-        const caps = await this.getCapabilities();
+      for (let index = 0; index < correctCaps.length; index += 1) {
+        const caps = (await this.getCapabilities()).filter((c) => !optionalCaps.includes(c));
         const newCap = correctCaps[index];
         if (caps[index] !== newCap) {
           this.setUnavailable('Migrating. Please wait!').catch(() => null);
-          // remove all caps from here
+          // remove base caps from here
           for (let i = index; i < caps.length; i += 1) {
             this.log(`removing capability ${caps[i]} for ${this.getName()}`);
             await this.removeCapability(caps[i])
@@ -84,9 +85,10 @@ class MyDevice extends Device {
             this.log(`adding capability ${newCap} for ${this.getName()}`);
             await this.addCapability(newCap);
             // restore capability state
-            if (state[newCap]) this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
-            // else this.log(`${this.getName()} has gotten a new capability ${newCap}!`);
-            if (state[newCap] !== undefined) this.setCapability(newCap, state[newCap]);
+            if (state[newCap] !== undefined) {
+              this.log(`${this.getName()} restoring value ${newCap} to ${state[newCap]}`);
+              this.setCapability(newCap, state[newCap]);
+            }
             await setTimeoutPromise(2 * 1000); // wait a bit for Homey to settle
           }
         }
@@ -163,6 +165,15 @@ class MyDevice extends Device {
       ledBrightness: bike.settings.led_brightness ? `${bike.settings.led_brightness}%` : '100%',
       autoUnlock: bike.settings.auto_unlock ? 'Enabled' : 'Disabled',
       smartLock: bike.settings.smart_lock ? 'Enabled' : 'Disabled',
+      color: (bike.sku && bike.sku.color) ? bike.sku.color : '',
+      accessories: (bike.sku && bike.sku.accessories) ? bike.sku.accessories : '',
+      brakeType: bike.brake_type || '',
+      brakePadsType: bike.brake_pads_type || '',
+      frameType: bike.frame_type || '',
+      torqueSensorType: bike.torque_sensor_type || '',
+      wirelessCharger: (bike.sku && bike.sku.features && typeof bike.sku.features.has_wireless_charger === 'boolean') ? (bike.sku.features.has_wireless_charger ? 'Yes' : 'No') : '',
+      warrantyEnds: bike.warranty_ends_at ? bike.warranty_ends_at.substring(0, 10) : '',
+      connect: typeof bike.has_cowboy_connect === 'boolean' ? (bike.has_cowboy_connect ? 'Active' : 'Inactive') : '',
     };
     if (bike.sku && bike.sku.features && bike.sku.features.battery_autonomy) {
       settings.maxRange = `${bike.sku.features.battery_autonomy} km`;
@@ -198,10 +209,45 @@ class MyDevice extends Device {
       this.setCapability('measure_battery.pcb', bike.pcb_battery_state_of_charge);
       this.setCapability('alarm_crashed', bike.crashed);
       this.setCapability('alarm_stolen', bike.stolen);
+      if (typeof bike.battery_inserted === 'boolean') {
+        this.setCapability('alarm_battery_removed', !bike.battery_inserted);
+      }
       this.setCapability('meter_odo', bike.total_distance);
       this.setCapability('meter_duration', bike.total_duration / 3600);
       this.setCapability('latitude', bike.position.latitude);
       this.setCapability('longitude', bike.position.longitude);
+
+      // dynamic capability: measure_elevation
+      if (bike.position && typeof bike.position.elevation === 'number') {
+        if (!this.hasCapability('measure_elevation')) {
+          await this.addCapability('measure_elevation').catch(this.error);
+        }
+        this.setCapability('measure_elevation', Math.round(bike.position.elevation * 10) / 10);
+      } else if (this.hasCapability('measure_elevation')) {
+        await this.removeCapability('measure_elevation').catch(this.error);
+      }
+
+      // dynamic capability: ride_mode
+      const hasRideModeFeature = (bike.available_features && bike.available_features.ride_mode === 'available') || bike.last_ride_mode;
+      if (hasRideModeFeature && bike.last_ride_mode) {
+        if (!this.hasCapability('ride_mode')) {
+          await this.addCapability('ride_mode').catch(this.error);
+        }
+        const modeMap = {
+          adaptive_eu: 'Adaptive (EU)',
+          adaptive_us: 'Adaptive (US)',
+          adaptive_eco_eu: 'Adaptive Eco (EU)',
+          adaptive_eco_us: 'Adaptive Eco (US)',
+          static_eu: 'Static (EU)',
+          static_us: 'Static (US)',
+          static_offroad: 'Offroad',
+          assistance_off: 'Off',
+        };
+        const formattedMode = modeMap[bike.last_ride_mode] || bike.last_ride_mode;
+        this.setCapability('ride_mode', formattedMode);
+      } else if (this.hasCapability('ride_mode')) {
+        await this.removeCapability('ride_mode').catch(this.error);
+      }
 
       let locationAddress = bike.position.address;
       if (!locationAddress && bike.position.latitude && bike.position.longitude && this.nominatim) {
@@ -216,7 +262,14 @@ class MyDevice extends Device {
       }
 
       // update calculated capabilities
-      this.setCapability('meter_range', bike.autonomy * (bike.battery_state_of_charge / 100));
+      let rangeEst = bike.autonomy * (bike.battery_state_of_charge / 100);
+      if (Array.isArray(bike.autonomies) && bike.last_ride_mode) {
+        const modeAutonomy = bike.autonomies.find((a) => a.ride_mode === bike.last_ride_mode);
+        if (modeAutonomy && typeof modeAutonomy.full_battery_range === 'number' && modeAutonomy.full_battery_range > 0) {
+          rangeEst = modeAutonomy.full_battery_range * (bike.battery_state_of_charge / 100);
+        }
+      }
+      this.setCapability('meter_range', Math.round(rangeEst * 10) / 10);
       this.setCapability('meter_distance', this.distance(bike.position));
       this.setCapability('etth', 3.5 * this.distance(bike.position)); // assume avg 17,1 km/h
 

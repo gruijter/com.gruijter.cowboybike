@@ -51,6 +51,8 @@ module.exports = {
       meterSpeed = device._lastTripSpeed;
     }
 
+    const bikeData = (device.cowboy && device.cowboy.data && device.cowboy.data.bike) || {};
+
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),
@@ -69,6 +71,11 @@ module.exports = {
       alarm_relocated: device.getCapabilityValue('alarm_relocated') ?? false,
       alarm_stolen: device.getCapabilityValue('alarm_stolen') ?? false,
       alarm_crashed: device.getCapabilityValue('alarm_crashed') ?? false,
+      alarm_battery_removed: device.getCapabilityValue('alarm_battery_removed') ?? false,
+      battery_inserted: typeof bikeData.battery_inserted === 'boolean' ? bikeData.battery_inserted : true,
+      position_type: (bikeData.position && bikeData.position.type) ? bikeData.position.type : null,
+      ride_mode: device.hasCapability('ride_mode') ? device.getCapabilityValue('ride_mode') : null,
+      measure_elevation: device.hasCapability('measure_elevation') ? device.getCapabilityValue('measure_elevation') : null,
     };
   },
 };
