@@ -1,6 +1,6 @@
 {
   "name": "com.gruijter.cowboybike",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Get data from your Cowboy Bike",
   "engines": {
     "node": ">=12.0.0"
