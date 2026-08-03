@@ -124,7 +124,7 @@ module.exports = {
 
     const badgesPayload = device._statsCache.badges || {};
     if (badgesPayload && Array.isArray(badgesPayload.categories)) {
-      let allBadges = [];
+      const allBadges = [];
       badgesPayload.categories.forEach((cat) => {
         if (Array.isArray(cat.badges)) {
           cat.badges.forEach((b) => {
@@ -136,7 +136,7 @@ module.exports = {
         }
       });
       // Separate achievement/trophy badges from milestone ranks
-      const achievedTrophies = allBadges.filter(b => b.type === 'achievement' && b.achieved_on).sort((a, b) => new Date(b.achieved_on) - new Date(a.achieved_on));
+      const achievedTrophies = allBadges.filter((b) => b.type === 'achievement' && b.achieved_on).sort((a, b) => new Date(b.achieved_on) - new Date(a.achieved_on));
       if (achievedTrophies.length > 0) {
         latestBadgeName = achievedTrophies[0].name;
       }
@@ -156,6 +156,7 @@ module.exports = {
       relative_rank: relativeRank,
       last_trip: parseFloat(tripCap.toFixed(1)),
       model: (bikeData.model && bikeData.model.name) ? bikeData.model.name : (device.getSettings().model || ''),
+      frame_type: bikeData.frame_type || (device.getSettings() && device.getSettings().frameType) || '',
     };
   },
 };

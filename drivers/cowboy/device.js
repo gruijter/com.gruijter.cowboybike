@@ -36,6 +36,7 @@ class MyDevice extends Device {
       this.setAvailable().catch(this.error);
       this.setCapability('alarm_relocated', false);
       this.restarting = false;
+      this._firstRun = true;
       this.lastBikeData = this.getStoreValue('lastBikeData');
       const storedLastTripSpeed = this.getStoreValue('lastTripSpeed');
       if (storedLastTripSpeed && storedLastTripSpeed > 0) {
@@ -158,6 +159,15 @@ class MyDevice extends Device {
   async checkSettings() {
     const { bike } = this.cowboy.data || {};
     if (!bike || !bike.settings) return;
+    let wirelessCharger = '';
+    if (bike.sku && bike.sku.features && typeof bike.sku.features.has_wireless_charger === 'boolean') {
+      wirelessCharger = bike.sku.features.has_wireless_charger ? 'Yes' : 'No';
+    }
+    let connect = '';
+    if (typeof bike.has_cowboy_connect === 'boolean') {
+      connect = bike.has_cowboy_connect ? 'Active' : 'Inactive';
+    }
+
     const settings = {
       model: bike.model ? bike.model.name : '',
       sku: bike.sku_code || '',
@@ -175,9 +185,9 @@ class MyDevice extends Device {
       brakePadsType: bike.brake_pads_type || '',
       frameType: bike.frame_type || '',
       torqueSensorType: bike.torque_sensor_type || '',
-      wirelessCharger: (bike.sku && bike.sku.features && typeof bike.sku.features.has_wireless_charger === 'boolean') ? (bike.sku.features.has_wireless_charger ? 'Yes' : 'No') : '',
+      wirelessCharger,
       warrantyEnds: bike.warranty_ends_at ? bike.warranty_ends_at.substring(0, 10) : '',
-      connect: typeof bike.has_cowboy_connect === 'boolean' ? (bike.has_cowboy_connect ? 'Active' : 'Inactive') : '',
+      connect,
     };
     if (bike.sku && bike.sku.features && bike.sku.features.battery_autonomy) {
       settings.maxRange = `${bike.sku.features.battery_autonomy} km`;
@@ -285,14 +295,14 @@ class MyDevice extends Device {
       const lastLocTm = new Date(bike.position.received_at);
       const date = lastLocTm.toString().substring(4, 11);
       const time = lastLocTm.toLocaleTimeString('nl-NL', { hour12: false, timeZone: this.homey.clock.getTimezone() }).substring(0, 5);
-      
+
       // Only set last_parked on first initialization if capability is not set yet
       if (!this.getCapabilityValue('last_parked')) {
         this.setCapability('last_parked', `${date} ${time}`);
       }
 
-      // update relocation based capabilities
-      if (this.lastBikeData) {
+      // update relocation based capabilities (skip delta calculation on initial startup poll to avoid offline gap jumps)
+      if (this.lastBikeData && !this._firstRun) {
         let deltaT = bike.total_duration - this.lastBikeData.total_duration;
         let deltaD = bike.total_distance - this.lastBikeData.total_distance;
         let movedBeeline = this.distance(bike.position, this.lastBikeData.position);
@@ -338,6 +348,7 @@ class MyDevice extends Device {
         }
         if (relocatedAlarm) this.setCapability('alarm_relocated', true);
       }
+      this._firstRun = false;
 
       // store bike data and update app settings
       this.lastBikeData = bike;
@@ -404,6 +415,27 @@ class MyDevice extends Device {
             this.setCapabilityValue('meter_speed', calculatedSpeed).catch(this.error);
             this.setStoreValue('lastTripSpeed', calculatedSpeed).catch(this.error);
           }
+
+          let tripDist = 0;
+          if (typeof lastTrip.distance === 'number' && lastTrip.distance > 0) {
+            tripDist = lastTrip.distance > 100 ? lastTrip.distance / 1000 : lastTrip.distance;
+          } else if (typeof lastTrip.distance_km === 'number' && lastTrip.distance_km > 0) {
+            tripDist = lastTrip.distance_km;
+          }
+
+          if (tripDist > 0) {
+            this.setCapability('meter_trip', Math.round(tripDist * 100) / 100);
+          }
+
+          const tripEndStr = lastTrip.ended_at || lastTrip.finished_at || lastTrip.created_at || lastTrip.started_at;
+          if (tripEndStr) {
+            const tripEndTime = new Date(tripEndStr);
+            if (!Number.isNaN(tripEndTime.getTime())) {
+              const dateStr = tripEndTime.toString().substring(4, 11);
+              const timeStr = tripEndTime.toLocaleTimeString('nl-NL', { hour12: false, timeZone: this.homey.clock.getTimezone() }).substring(0, 5);
+              this.setCapability('last_parked', `${dateStr} ${timeStr}`);
+            }
+          }
         }
       }
 
@@ -436,8 +468,6 @@ class MyDevice extends Device {
       this.error('updateLastTripSpeed error:', e);
     }
   }
-
-
 
   distance(pos1, pos2) {
     const lat1 = pos1.latitude;

@@ -334,23 +334,32 @@
         if (caloriesVal) caloriesVal.innerText = (data.most_calories || 0) + ' kcal';
         if (badgeVal) badgeVal.innerText = data.latest_badge || '--';
 
-        function updateBikeImage(modelName) {
+        function updateBikeImage(modelName, frameType) {
           var imgEl = document.querySelector('.bike-img');
           if (!imgEl) return;
           var model = (modelName || '').toLowerCase();
+          var frame = (frameType || '').toLowerCase();
+
+          var isStepThrough = (
+            model.indexOf(' st') !== -1 ||
+            model.endsWith('st') ||
+            model.indexOf('step-through') !== -1 ||
+            frame.indexOf('edition u') !== -1 ||
+            frame.indexOf('step') !== -1
+          );
 
           if (model.indexOf('cross') !== -1) {
             imgEl.src = 'bike_cross.png';
-          } else if (model.indexOf('cruiser') !== -1 || model.indexOf('st') !== -1) {
+          } else if (isStepThrough) {
             imgEl.src = 'bike_cruiser.png';
-          } else if (model.indexOf('4') !== -1 || model.indexOf('classic') !== -1) {
+          } else if (model.indexOf('4') !== -1 || model.indexOf('classic') !== -1 || model.indexOf('cruiser') !== -1) {
             imgEl.src = 'bike_c4.png';
           } else {
             imgEl.src = 'bike.png';
           }
         }
 
-        updateBikeImage(data.model);
+        updateBikeImage(data.model, data.frame_type);
       }
 
       function fetchStatsData() {

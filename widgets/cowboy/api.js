@@ -54,6 +54,12 @@ module.exports = {
 
     const bikeData = (device.cowboy && device.cowboy.data && device.cowboy.data.bike) || {};
 
+    const storedTripDuration = typeof device.getStoreValue === 'function' ? device.getStoreValue('lastTripDuration') : 0;
+    let tripDuration = device._lastTripDuration || storedTripDuration || 0;
+    if (!tripDuration && device.getCapabilityValue('meter_trip') && meterSpeed) {
+      tripDuration = Math.round((device.getCapabilityValue('meter_trip') / meterSpeed) * 60);
+    }
+
     return {
       id: device.getData() ? device.getData().id : device.id,
       name: device.getName(),
@@ -64,7 +70,7 @@ module.exports = {
       current_speed: device.currentSpeed ?? 0,
       meter_odo: device.getCapabilityValue('meter_odo') ?? 0,
       location: device.getCapabilityValue('location') ?? '',
-      place: place,
+      place,
       meter_distance: device.getCapabilityValue('meter_distance') ?? 0,
       last_parked: device.getCapabilityValue('last_parked') ?? '',
       alarm_batt: device.getCapabilityValue('alarm_batt') ?? false,
@@ -78,7 +84,8 @@ module.exports = {
       ride_mode: device.hasCapability('ride_mode') ? device.getCapabilityValue('ride_mode') : null,
       measure_elevation: device.hasCapability('measure_elevation') ? device.getCapabilityValue('measure_elevation') : null,
       model: (bikeData.model && bikeData.model.name) ? bikeData.model.name : (device.getSettings().model || ''),
-      trip_duration: (device._lastTripDuration || (typeof device.getStoreValue === 'function' && device.getStoreValue('lastTripDuration'))) || ((device.getCapabilityValue('meter_trip') && meterSpeed) ? Math.round((device.getCapabilityValue('meter_trip') / meterSpeed) * 60) : 0),
+      frame_type: bikeData.frame_type || (device.getSettings() && device.getSettings().frameType) || '',
+      trip_duration: tripDuration,
     };
   },
 };
