@@ -153,8 +153,9 @@
     }
 
     .bike-img {
-      width: 92%;
+      max-width: 95%;
       max-height: 155px;
+      width: auto;
       object-fit: contain;
       filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.45));
     }
@@ -451,6 +452,7 @@
           var model = (modelName || '').toLowerCase();
           var frame = (frameType || '').toLowerCase();
 
+          var isCross = model.indexOf('cross') !== -1;
           var isStepThrough = (
             model.indexOf(' st') !== -1 ||
             model.endsWith('st') ||
@@ -459,11 +461,13 @@
             frame.indexOf('step') !== -1
           );
 
-          if (model.indexOf('cross') !== -1) {
-            imgEl.src = 'bike_cross.png';
+          if (isCross) {
+            imgEl.src = isStepThrough ? 'bike_cross_st.png' : 'bike_cross.png';
+          } else if (model.indexOf('cruiser') !== -1) {
+            imgEl.src = isStepThrough ? 'bike_cruiser_st.png' : 'bike_cruiser.png';
           } else if (isStepThrough) {
-            imgEl.src = 'bike_cruiser.png';
-          } else if (model.indexOf('4') !== -1 || model.indexOf('classic') !== -1 || model.indexOf('cruiser') !== -1) {
+            imgEl.src = 'bike_cruiser_st.png';
+          } else if (model.indexOf('4') !== -1 || model.indexOf('classic') !== -1) {
             imgEl.src = 'bike_c4.png';
           } else {
             imgEl.src = 'bike.png';
